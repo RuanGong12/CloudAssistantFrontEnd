@@ -1,0 +1,23 @@
+代码格式化（js）：
+    推荐：
+        1.禁止使用var类型变量，只允许使用let和const类型的变量；
+
+    强制：
+        1.只允许使用4空格缩进；
+        2.强制所有js语句结束后加分号
+        3.禁止js语句中使用双引号，所有字符串使用单引号（html代码除外）
+        4.注释双斜杠后加空格或tab
+        5.禁止声明变量但不使用
+        6.各种空格要求
+    
+    推荐使用代码格式化（alt + shift + f）自动完成，可能需要vetur插件
+
+样式:
+    1.字体：
+        font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+    2.强调色（那个红色）：
+        #f56c6c
+    3.禁止使用 position:fix;
+
+待补充
+    
