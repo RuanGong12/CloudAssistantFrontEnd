@@ -59,6 +59,7 @@
 .swipe-tab i {
     position: absolute;
     left: 0;
+    transition: transform 0.3s ease-out;
     -webkit-transition: -webkit-transform 0.3s ease-out;
 }
 
