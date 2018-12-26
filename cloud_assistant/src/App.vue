@@ -1,12 +1,20 @@
 <template>
     <div id="app">
+        <app-header></app-header>
         <router-view/>
     </div>
 </template>
 
 <script>
+import '@/assets/css/reset.css';
+
+import AppHeader from '@/components/AppHeader';
+
 export default {
-    name: 'App'
+    name: 'App',
+    components: {
+        AppHeader: AppHeader
+    }
 };
 </script>
 
@@ -17,6 +25,6 @@ export default {
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #2c3e50;
-    background: #2c3e50;
+    /* background: #2c3e50; */
 }
 </style>
