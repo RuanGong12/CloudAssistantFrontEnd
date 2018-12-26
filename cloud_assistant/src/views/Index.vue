@@ -1,8 +1,10 @@
 <template>
-    <header></header>
-    <div></div>
-    <footer></footer>
-    <el-button>index</el-button>
+    <div>
+        <header></header>
+        <div></div>
+        <footer></footer>
+        <el-button>index</el-button>
+    </div>
 </template>
 
 <script>
