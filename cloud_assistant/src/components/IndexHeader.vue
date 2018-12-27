@@ -2,8 +2,8 @@
     <header>
         <div class="top-menu">
             <ul class="swipe-tab float-clear-block">
-                <li v-bind:class="{ 'swipe-tab__on': isTabFirst }" @click="tabSwitch(0)">首页</li>
-                <li v-bind:class="{ 'swipe-tab__on': !isTabFirst }" @click="tabSwitch(1)">个人信息</li>
+                <li v-bind:class="{ 'swipe-tab__on': currentPage === 0 }" @click="tabSwitch(0)">首页</li>
+                <li v-bind:class="{ 'swipe-tab__on': currentPage === 1 }" @click="tabSwitch(1)">个人信息</li>
                 <i v-bind:style="sliderStyle"></i>
             </ul>
         </div>
@@ -78,25 +78,33 @@
 
 <script>
 export default {
+    props: ['currentPage'],
     data() {
         return {
             sliderStyle: {
                 width: '50%',
-                transitionDuration: '0.5s',
+                transitionDuration: '0.4s',
                 transform: 'translate3d(0%,0,0)'
-            },
-            isTabFirst: true
+            }
         };
     },
     methods: {
         tabSwitch(index) {
             if (index === 0) {
                 this.sliderStyle.transform = 'translate3d(0%,0,0)';
-                this.isTabFirst = true;
+                this.$emit('index');
             } else {
                 this.sliderStyle.transform = 'translate3d(100%,0,0)';
-                this.isTabFirst = false;
+                this.$emit('user');
             }
+        },
+        log() {
+            console.log(this.currentPage);
+        }
+    },
+    watch: {
+        currentPage: function(val) {
+            this.tabSwitch(val);
         }
     }
 };

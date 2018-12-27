@@ -3,7 +3,11 @@
         <div id="app-header" class="app-header">
             <div class="icon-button-back el-icon-arrow-left" @click="back"></div>
             <div class="app-header-title">{{ headTitle }}</div>
-            <div class="icon-button-search el-icon-search" @click="searchPage"></div>
+            <div
+                class="icon-button-search el-icon-search"
+                @click="searchPage"
+                v-if="showSearchIcon"
+            ></div>
         </div>
     </header>
 </template>
@@ -48,6 +52,7 @@
 
 <script>
 export default {
+    props: ['showSearchIcon'],
     data() {
         return {
             headTitle: '高校云助手'
@@ -56,11 +61,13 @@ export default {
     methods: {
         back() {
             // TODO back to previous page
-            alert('back to previous page');
+            // alert('back to previous page');
+            this.$emit('back');
         },
         searchPage() {
             // TODO go to search page
-            alert('go to search page');
+            // alert('go to search page');
+            this.$emit('search');
         }
     }
 };
