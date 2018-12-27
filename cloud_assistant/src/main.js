@@ -3,10 +3,18 @@
 import Vue from 'vue';
 import App from './App';
 import router from './router';
-import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
+import VueLazyLoad from 'vue-lazyload';
 
-Vue.use(ElementUI);
+import Vant from 'vant';
+import 'vant/lib/index.css';
+
+Vue.use(Vant);
+Vue.use(VueLazyLoad, {
+    error: '../../static/img/failed.png',
+    loading: '../../static/img/loading-bubbles.svg',
+    attempt: 2
+});
+
 Vue.config.productionTip = false;
 
 /* eslint-disable no-new */

@@ -1,31 +1,24 @@
 <template>
     <div class="index-top">
-        <el-carousel height="180px" indicator-position="none" arrow="never">
-            <el-carousel-item v-for="item in carouselData" :key="item.id">
-                <div class="carousel-card" v-bind:style="{'background-image': 'url('+item.cover+')'}">
-                </div>
-            </el-carousel-item>
-        </el-carousel>
+        <van-swipe :autoplay="3000" :height="180">
+            <van-swipe-item v-for="item in swipeData" :key="item.id">
+                <img class="swipe-item-img" :src="item.cover" :alt="item.title">
+            </van-swipe-item>
+        </van-swipe>
     </div>
 </template>
 
 <style>
-
 .index-top {
+    margin-top: 5px;
     padding: 10px 10px;
-}
-.carousel-card {
-    border-radius: 4px;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    width: 100%;
-    height: 100%;
+    border-bottom: #f0f0f0 solid 10px;
 }
 
-.carousel-card img {
+.swipe-item-img {
     width: 100%;
     height: 100%;
+    border-radius: 4px;
 }
 </style>
 
@@ -33,11 +26,11 @@
 export default {
     data() {
         return {
-            carouselData: null
+            swipeData: null
         };
     },
     created: function() {
-        this.carouselData = [
+        this.swipeData = [
             {
                 id: 1,
                 title: 'hello1',

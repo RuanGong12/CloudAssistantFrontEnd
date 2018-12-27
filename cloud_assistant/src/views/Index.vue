@@ -95,6 +95,7 @@ export default {
             if (this.currentPage === 0) {
                 return;
             }
+            console.log('swipe to index');
             this.currentPage = 0;
             this.towPageStyle.transform = 'translate3d(0vw,0px,0px)';
         },
@@ -133,7 +134,8 @@ export default {
             }
         },
         touchEnd(event) {
-            if (swipeFailed) {
+            console.log('touch end');
+            if (!swipeSucceed) {
                 return;
             }
             let dx = event.changedTouches[0].clientX - startPoint.x;

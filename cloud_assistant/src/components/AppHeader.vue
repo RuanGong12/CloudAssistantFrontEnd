@@ -1,13 +1,13 @@
 <template>
     <header>
         <div id="app-header" class="app-header">
-            <div class="icon-button-back el-icon-arrow-left" @click="back"></div>
+            <div class="icon-button-back" @click="back" v-if="showBackIcon">
+                <van-icon name="arrow-left"></van-icon>
+            </div>
             <div class="app-header-title">{{ headTitle }}</div>
-            <div
-                class="icon-button-search el-icon-search"
-                @click="searchPage"
-                v-if="showSearchIcon"
-            ></div>
+            <div class="icon-button-search" @click="searchPage" v-if="showSearchIcon">
+                <van-icon name="search"></van-icon>
+            </div>
         </div>
     </header>
 </template>
@@ -41,8 +41,8 @@
 }
 
 .icon-button-search {
-    font-size: 24px;
-    top: 12px;
+    font-size: 30px;
+    top: 9px;
     right: 20px;
     width: 20px;
     height: 20px;
@@ -52,7 +52,7 @@
 
 <script>
 export default {
-    props: ['showSearchIcon'],
+    props: ['showSearchIcon', 'showBackIcon'],
     data() {
         return {
             headTitle: '高校云助手'
