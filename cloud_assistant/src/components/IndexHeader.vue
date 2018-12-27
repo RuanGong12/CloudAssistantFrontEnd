@@ -97,9 +97,6 @@ export default {
                 this.sliderStyle.transform = 'translate3d(100%,0,0)';
                 this.$emit('user');
             }
-        },
-        log() {
-            console.log(this.currentPage);
         }
     },
     watch: {

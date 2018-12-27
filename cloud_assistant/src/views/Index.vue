@@ -95,7 +95,6 @@ export default {
             if (this.currentPage === 0) {
                 return;
             }
-            console.log('swipe to index');
             this.currentPage = 0;
             this.towPageStyle.transform = 'translate3d(0vw,0px,0px)';
         },
@@ -107,7 +106,6 @@ export default {
             this.towPageStyle.transform = 'translate3d(-100vw,0px,0px)';
         },
         touchStart(event) {
-            console.log('start');
             swipeFailed = false;
             swipeSucceed = false;
             startPoint.x = event.targetTouches[0].clientX;
@@ -119,22 +117,14 @@ export default {
             }
             let x = event.targetTouches[0].clientX;
             let y = event.targetTouches[0].clientY;
-            // if (swipeSucceed) {
-            //     let dx = x - startPoint.x;
-            //     this.movePage(dx);
-            //     return;
-            // }
             let swipeFlag = isSwipe(x, y);
             if (swipeFlag === true) {
                 swipeSucceed = true;
-                console.log('succeed');
             } else if (swipeFlag === false) {
                 swipeFailed = true;
-                console.log('failed');
             }
         },
         touchEnd(event) {
-            console.log('touch end');
             if (!swipeSucceed) {
                 return;
             }
@@ -146,7 +136,6 @@ export default {
             }
         },
         movePage(dx) {
-            console.log(dx);
             this.towPageStyle.transitionDuration = '0';
             this.towPageStyle.transform = 'translate3d(' + dx + 'px,0px,0px)';
         }
@@ -158,9 +147,6 @@ export default {
         CourseRecommend: CourseRecommend,
         IndexFooter: IndexFooter,
         UserInfo: UserInfo
-    },
-    created: function() {
-        console.log(document.body.clientHeight);
     }
 };
 </script>
