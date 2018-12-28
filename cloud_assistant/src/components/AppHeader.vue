@@ -4,7 +4,7 @@
             <div class="icon-button-back" @click="back" v-if="showBackIcon">
                 <van-icon name="arrow-left"></van-icon>
             </div>
-            <div class="app-header-title">{{ headTitle }}</div>
+            <div class="app-header-title">{{ headerTitle }}</div>
             <div class="icon-button-search" @click="searchPage" v-if="showSearchIcon">
                 <van-icon name="search"></van-icon>
             </div>
@@ -19,7 +19,7 @@
     width: 100%;
     background: #fff;
     box-shadow: 0 0 10px 1px rgba(7, 17, 27, 0.1);
-    z-index: 10000;
+    z-index: 1000;
 }
 
 .app-header-title {
@@ -52,12 +52,7 @@
 
 <script>
 export default {
-    props: ['showSearchIcon', 'showBackIcon'],
-    data() {
-        return {
-            headTitle: '高校云助手'
-        };
-    },
+    props: ['showSearchIcon', 'showBackIcon', 'headerTitle'],
     methods: {
         back() {
             // TODO back to previous page

@@ -2,12 +2,13 @@
     <div>
         <div>
             <div class="user-head">
-                <div class="user-head-img"></div>
+                <div class="user-head-img" v-lazy:background-image="userAvatar"></div>
                 <div class="user-head-border"></div>
             </div>
             <div class="user-name">
-                <p>double7
-                    <van-icon name="edit" class="icon-button-edit"></van-icon>
+                <p>
+                    <span id="user-name-text">double7 {{testFlag}}</span>
+                    <van-icon name="edit" class="icon-button-edit" @click="showDialog"></van-icon>
                 </p>
             </div>
         </div>
@@ -19,6 +20,11 @@
 </template>
 
 <style>
+.user-page-dialog {
+    width: 85vw;
+    left: 150vw;
+}
+
 .message-box {
     min-width: 100px;
     height: 48px;
@@ -39,10 +45,10 @@
     left: 5%;
     width: 90%;
     height: 90%;
-    background: url(../../static/img/2.jpg) no-repeat center;
     background-size: cover;
+    background-position: center;
     border-radius: 50%;
-    z-index: 10000;
+    z-index: 1000;
 }
 
 .user-head-border {
@@ -77,7 +83,7 @@
     position: absolute;
     font-size: 25px;
     margin-left: 16px;
-    top: -4px;
+    top: -3px;
 }
 
 .cell-title {
@@ -93,11 +99,54 @@
 </style>
 
 <script>
+import DataProvider from '../../static/js/DataProvider';
+
 export default {
+    props: ['testFlag'],
+    data() {
+        return {
+            showFlag: false,
+            userName: 'double7',
+            userAvatar: '',
+            editedName: ''
+        };
+    },
     methods: {
+        beforeClose(action, done) {
+            if (action === 'cancel') {
+                done();
+            } else {
+                if (this.errorMessage !== '') {
+                    done(false);
+                } else {
+                    // TODO
+                }
+            }
+        },
+        showDialog() {
+            this.editedName = this.userName;
+            this.showFlag = true;
+        },
         openMsg() {
             this.$message({ message: 'info', customClass: 'message-box' });
         }
+    },
+    computed: {
+        errorMessage: function() {
+            let val = this.editedName;
+            if (val === '') {
+                return '昵称不能为空';
+            } else if (val.length > 10) {
+                return '昵称长度不超过10个字符';
+            } else {
+                return '';
+            }
+        }
+    },
+    created: function() {
+        let userInfo = DataProvider.getUserInfo();
+        this.userName = userInfo.userName;
+        this.userAvatar = userInfo.userAvatar;
     }
 };
 </script>

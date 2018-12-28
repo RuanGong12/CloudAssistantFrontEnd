@@ -77,6 +77,7 @@ let isSwipe = (x, y) => {
 };
 
 export default {
+    props: ['testFlag'],
     data() {
         return {
             towPageStyle: {
