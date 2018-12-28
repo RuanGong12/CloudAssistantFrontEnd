@@ -1,3 +1,10 @@
+/*
+ * @Author: double7
+ * @Date: 2018-12-28 19:05:06
+ * @Last Modified by:   double7
+ * @Last Modified time: 2018-12-28 19:05:06
+ */
+
 let getSwipeData = () => {
     let mockData = [
         {
@@ -32,7 +39,7 @@ let getSwipeData = () => {
 let getUserInfo = () => {
     return {
         userName: 'double7',
-        userAvatar: '../../static/img/2.jpg'
+        userAvatar: '/static/img/2.jpg'
     };
 };
 

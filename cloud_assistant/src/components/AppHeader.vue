@@ -1,3 +1,10 @@
+/*
+ * @Author: double7
+ * @Date: 2018-12-28 19:02:29
+ * @Last Modified by: double7
+ * @Last Modified time: 2018-12-28 19:05:29
+ */
+
 <template>
     <header>
         <div id="app-header" class="app-header">
@@ -51,18 +58,23 @@
 </style>
 
 <script>
+import { mapState } from 'vuex';
+import { BACK_PAGE, GO_PAGE } from '@/store/mutation-types';
+import Pages from '@/router/Pages';
 export default {
-    props: ['showSearchIcon', 'showBackIcon', 'headerTitle'],
+    computed: {
+        ...mapState({
+            headerTitle: state => state.currentPage.headerTitle,
+            showSearchIcon: state => state.currentPage.showSearchIcon,
+            showBackIcon: state => state.currentPage.showBackIcon
+        })
+    },
     methods: {
         back() {
-            // TODO back to previous page
-            // alert('back to previous page');
-            this.$emit('back');
+            this.$store.commit(BACK_PAGE);
         },
         searchPage() {
-            // TODO go to search page
-            // alert('go to search page');
-            this.$emit('search');
+            this.$store.commit(GO_PAGE, Pages.SearchPage);
         }
     }
 };

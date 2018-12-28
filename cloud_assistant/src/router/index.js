@@ -1,3 +1,10 @@
+/*
+ * @Author: double7
+ * @Date: 2018-12-28 19:02:29
+ * @Last Modified by: double7
+ * @Last Modified time: 2018-12-28 19:06:39
+ */
+
 import Vue from 'vue';
 import Router from 'vue-router';
 import Index from '@/views/Index.vue';
@@ -11,8 +18,7 @@ export default new Router({
         {
             path: '/',
             name: 'Index',
-            component: Index,
-            props: true
+            component: Index
         },
         {
             path: '/search',

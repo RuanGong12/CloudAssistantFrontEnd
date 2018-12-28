@@ -1,33 +1,15 @@
+/*
+ * @Author: double7
+ * @Date: 2018-12-28 19:02:29
+ * @Last Modified by: double7
+ * @Last Modified time: 2018-12-28 19:08:11
+ */
+
 <template>
     <div id="app">
-        <div class="out-document">
-            <div class="app-dialogs">
-                <van-dialog
-                    class="user-page-dialog"
-                    v-model="showUserNameEditDialog"
-                    :before-close="beforeClose"
-                    show-cancel-button
-                >
-                    <van-panel title="更改昵称" icon="edit">
-                        <van-field
-                            v-model="editedName"
-                            label="昵称"
-                            placeholder="输入昵称"
-                            required
-                            :error-message="errorMessage"
-                        ></van-field>
-                    </van-panel>
-                </van-dialog>
-            </div>
-        </div>
-        <app-header
-            v-on:back="pageBack"
-            v-on:search="pageSearch"
-            v-bind:showSearchIcon="showSearchIcon"
-            v-bind:showBackIcon="showBackIcon"
-            v-bind:headerTitle="headerTitle"
-        ></app-header>
-        <router-view :testFlag="testFlag"/>
+        <app-dialogs></app-dialogs>
+        <app-header></app-header>
+        <router-view/>
     </div>
 </template>
 
@@ -48,58 +30,29 @@
 
 <script>
 import '@/assets/css/reset.css';
-
+import { mapState } from 'vuex';
 import AppHeader from '@/components/AppHeader';
+import AppDialogs from '@/components/AppDialogs';
 
-let pageStack = [];
-const AppPage = {
-    path: '/',
-    title: '高校云助手',
-    showSearchIcon: true,
-    showBackIcon: false
-};
-let currentPage = AppPage;
 export default {
     name: 'App',
     data() {
-        return {
-            showSearchIcon: true,
-            showBackIcon: false,
-            headerTitle: AppPage.title,
-            showUserNameEditDialog: false,
-            errorMessage: '',
-            editedName: '',
-            testFlag: 12
-        };
+        return {};
     },
     components: {
-        AppHeader: AppHeader
+        AppHeader: AppHeader,
+        AppDialogs: AppDialogs
     },
-    methods: {
-        pageBack() {
-            currentPage = pageStack.pop();
-            if (!currentPage) {
-                currentPage = AppPage;
-            }
-            this.goPage(currentPage);
-        },
-        pageSearch() {
-            this.goPage({
-                path: '/search',
-                title: '搜索',
-                showSearchIcon: false,
-                showBackIcon: true
-            });
-        },
-        goPage(page) {
-            console.log(page.title);
-            pageStack.push(currentPage);
-            this.$router.push(page.path);
-            this.headerTitle = page.title;
-            this.showSearchIcon = page.showSearchIcon;
-            this.showBackIcon = page.showBackIcon;
-        },
-        beforeClose() {}
+    methods: {},
+    computed: {
+        ...mapState({
+            currentPage: state => state.currentPage
+        })
+    },
+    watch: {
+        currentPage: function(val) {
+            this.$router.push(val.path);
+        }
     }
 };
 </script>

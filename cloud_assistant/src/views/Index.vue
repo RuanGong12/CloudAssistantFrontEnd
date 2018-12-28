@@ -1,29 +1,29 @@
+/*
+ * @Author: double7
+ * @Date: 2018-12-28 19:02:29
+ * @Last Modified by: double7
+ * @Last Modified time: 2018-12-28 19:07:30
+ */
+
 <template>
     <div class="container-root">
-        <index-header
-            v-on:index="swipeToIndex"
-            v-on:user="swipeToUser"
-            v-bind:currentPage="currentPage"
-        ></index-header>
-        <div
-            v-bind:style="towPageStyle"
-            @touchstart="touchStart($event)"
-            @touchmove="touchMove($event)"
-            @touchend="touchEnd($event)"
-        >
-            <div class="container-scroll" v-bind:style="{ 'height': scrollHeight + 'px' }">
-                <index-top></index-top>
-                <index-channel></index-channel>
-                <course-recommend></course-recommend>
-                <index-footer></index-footer>
-                <footer></footer>
-                <div id="tem"></div>
-            </div>
-
-            <div class="container-user">
-                <user-info></user-info>
-            </div>
-        </div>
+        <van-tabs class="index-headers" sticky swipeable animated :line-width="34" :line-height="2" :duration="0.4" color="#f56c6c">
+            <van-tab title="首页">
+                <div class="container-scroll" v-bind:style="{ 'height': scrollHeight + 'px' }">
+                    <index-top></index-top>
+                    <index-channel></index-channel>
+                    <course-recommend></course-recommend>
+                    <index-footer></index-footer>
+                    <footer></footer>
+                    <div id="tem"></div>
+                </div>
+            </van-tab>
+            <van-tab title="个人信息">
+                <div class="container-user">
+                    <user-info></user-info>
+                </div>
+            </van-tab>
+        </van-tabs>
     </div>
 </template>
 
@@ -35,6 +35,7 @@
 }
 
 .container-scroll,
+
 .container-user {
     width: 100vw;
     float: left;
@@ -54,92 +55,11 @@ import CourseRecommend from '@/components/CourseRecommend.vue';
 import IndexFooter from '@/components/IndexFooter.vue';
 import UserInfo from '@/views/UserInfo.vue';
 
-let startPoint = {
-    x: 0,
-    y: 0
-};
-let swipeFailed = false;
-let swipeSucceed = false;
-let isSwipe = (x, y) => {
-    let dx = Math.abs(x - startPoint.x);
-    let dy = Math.abs(y - startPoint.y);
-    if (dx + dy < 20) {
-        return undefined;
-    }
-    if (dy === 0) {
-        return true;
-    }
-    if (Math.abs(dy / dx) < 0.5) {
-        return true;
-    } else {
-        return false;
-    }
-};
-
 export default {
-    props: ['testFlag'],
     data() {
         return {
-            towPageStyle: {
-                width: '200vw',
-                transitionDuration: '0.5s',
-                transform: 'translate3d(0vw,0px,0px)',
-                overflow: 'hidden'
-            },
-            scrollHeight: document.body.clientHeight - 96,
-            clientWidth: document.body.clientWidth,
-            currentPage: 0
+            scrollHeight: document.body.clientHeight - 92
         };
-    },
-    methods: {
-        swipeToIndex() {
-            if (this.currentPage === 0) {
-                return;
-            }
-            this.currentPage = 0;
-            this.towPageStyle.transform = 'translate3d(0vw,0px,0px)';
-        },
-        swipeToUser() {
-            if (this.currentPage === 1) {
-                return;
-            }
-            this.currentPage = 1;
-            this.towPageStyle.transform = 'translate3d(-100vw,0px,0px)';
-        },
-        touchStart(event) {
-            swipeFailed = false;
-            swipeSucceed = false;
-            startPoint.x = event.targetTouches[0].clientX;
-            startPoint.y = event.targetTouches[0].clientY;
-        },
-        touchMove(event) {
-            if (swipeFailed || swipeSucceed) {
-                return;
-            }
-            let x = event.targetTouches[0].clientX;
-            let y = event.targetTouches[0].clientY;
-            let swipeFlag = isSwipe(x, y);
-            if (swipeFlag === true) {
-                swipeSucceed = true;
-            } else if (swipeFlag === false) {
-                swipeFailed = true;
-            }
-        },
-        touchEnd(event) {
-            if (!swipeSucceed) {
-                return;
-            }
-            let dx = event.changedTouches[0].clientX - startPoint.x;
-            if (dx < 0) {
-                this.swipeToUser();
-            } else {
-                this.swipeToIndex();
-            }
-        },
-        movePage(dx) {
-            this.towPageStyle.transitionDuration = '0';
-            this.towPageStyle.transform = 'translate3d(' + dx + 'px,0px,0px)';
-        }
     },
     components: {
         IndexHeader: IndexHeader,

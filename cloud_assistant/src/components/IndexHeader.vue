@@ -1,3 +1,10 @@
+/*
+ * @Author: double7
+ * @Date: 2018-12-28 19:02:29
+ * @Last Modified by: double7
+ * @Last Modified time: 2018-12-28 19:06:14
+ */
+
 <template>
     <header>
         <div class="top-menu">
@@ -83,7 +90,7 @@ export default {
         return {
             sliderStyle: {
                 width: '50%',
-                transitionDuration: '0.4s',
+                transition: '0.4s',
                 transform: 'translate3d(0%,0,0)'
             }
         };

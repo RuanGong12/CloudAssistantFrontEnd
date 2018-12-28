@@ -1,13 +1,20 @@
+/*
+ * @Author: double7
+ * @Date: 2018-12-28 19:02:29
+ * @Last Modified by: double7
+ * @Last Modified time: 2018-12-28 19:08:01
+ */
+
 <template>
     <div>
         <div>
             <div class="user-head">
-                <div class="user-head-img" v-lazy:background-image="userAvatar"></div>
+                <div class="user-head-img" v-lazy:background-image="userInfo.userAvatar"></div>
                 <div class="user-head-border"></div>
             </div>
             <div class="user-name">
                 <p>
-                    <span id="user-name-text">double7 {{testFlag}}</span>
+                    <span id="user-name-text">{{userInfo.userName}}</span>
                     <van-icon name="edit" class="icon-button-edit" @click="showDialog"></van-icon>
                 </p>
             </div>
@@ -20,18 +27,6 @@
 </template>
 
 <style>
-.user-page-dialog {
-    width: 85vw;
-    left: 150vw;
-}
-
-.message-box {
-    min-width: 100px;
-    height: 48px;
-    width: 70%;
-    top: 12px;
-}
-
 .user-head {
     position: relative;
     width: 10rem;
@@ -99,54 +94,28 @@
 </style>
 
 <script>
-import DataProvider from '../../static/js/DataProvider';
-
+import {
+    MODULES_NAME,
+    SHOW_USER_NAME_EDIT_DIALOG
+} from '@/store/mutation-types';
+import { mapState, mapMutations } from 'vuex';
 export default {
-    props: ['testFlag'],
     data() {
-        return {
-            showFlag: false,
-            userName: 'double7',
-            userAvatar: '',
-            editedName: ''
-        };
+        return {};
     },
     methods: {
-        beforeClose(action, done) {
-            if (action === 'cancel') {
-                done();
-            } else {
-                if (this.errorMessage !== '') {
-                    done(false);
-                } else {
-                    // TODO
-                }
-            }
-        },
+        ...mapMutations(MODULES_NAME.dialog, [SHOW_USER_NAME_EDIT_DIALOG]),
         showDialog() {
-            this.editedName = this.userName;
-            this.showFlag = true;
+            this[SHOW_USER_NAME_EDIT_DIALOG]();
         },
         openMsg() {
             this.$message({ message: 'info', customClass: 'message-box' });
         }
     },
     computed: {
-        errorMessage: function() {
-            let val = this.editedName;
-            if (val === '') {
-                return '昵称不能为空';
-            } else if (val.length > 10) {
-                return '昵称长度不超过10个字符';
-            } else {
-                return '';
-            }
-        }
-    },
-    created: function() {
-        let userInfo = DataProvider.getUserInfo();
-        this.userName = userInfo.userName;
-        this.userAvatar = userInfo.userAvatar;
+        ...mapState({
+            userInfo: state => state.userInfo
+        })
     }
 };
 </script>
