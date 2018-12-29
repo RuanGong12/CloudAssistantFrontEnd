@@ -2,7 +2,7 @@
  * @Author: double7
  * @Date: 2018-12-28 19:02:29
  * @Last Modified by: double7
- * @Last Modified time: 2018-12-28 19:08:20
+ * @Last Modified time: 2018-12-29 14:12:12
  */
 
 // The Vue build version to load with the `import` command
@@ -28,7 +28,7 @@ Vue.use(VueLazyLoad, {
 Vue.config.productionTip = false;
 
 /* eslint-disable no-new */
-new Vue({
+let vue = new Vue({
     el: '#app',
     store: appStore,
     router,
@@ -37,3 +37,6 @@ new Vue({
     },
     template: '<App/>'
 });
+
+// TODO
+window.vueIn = vue;

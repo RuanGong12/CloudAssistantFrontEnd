@@ -2,7 +2,7 @@
  * @Author: double7
  * @Date: 2018-12-29 11:40:04
  * @Last Modified by: double7
- * @Last Modified time: 2018-12-29 11:49:56
+ * @Last Modified time: 2018-12-29 23:22:24
  */
 
 <template>
@@ -42,7 +42,7 @@
 
 <style>
 .course-card {
-    margin: 15px auto;
+    margin: 20px auto;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
     border-radius: 4px;
     border: 1px solid #ebeef5;
@@ -52,7 +52,7 @@
     transition: 0.3s;
     min-width: 300px;
     max-width: 400px;
-    width: 94%;
+    width: 88%;
     line-height: normal;
 }
 
@@ -71,7 +71,7 @@
 }
 
 .card-img {
-    height: 110px;
+    height: 100px;
     background-position: center;
     background-size: cover;
 }
@@ -95,7 +95,7 @@
 <script>
 import { mapMutations } from 'vuex';
 import { GO_PAGE } from '@/store/mutation-types';
-// import Pages from '@/router/Pages';
+import Pages from '@/router/Pages';
 export default {
     props: ['listItems', 'loading', 'finished', 'finishedText'],
     data() {
@@ -103,7 +103,7 @@ export default {
     },
     methods: {
         examineDetail() {
-            // this[GO_PAGE]
+            this[GO_PAGE](Pages.CourseDetailPage);
         },
         onLoad() {
             this.$emit('onLoad');

@@ -2,7 +2,7 @@
  * @Author: double7
  * @Date: 2018-12-28 19:02:29
  * @Last Modified by: double7
- * @Last Modified time: 2018-12-29 11:45:02
+ * @Last Modified time: 2018-12-29 23:38:09
  */
 
 import Vue from 'vue';
@@ -14,7 +14,9 @@ import {
     CHANGE_USER_INFO,
     REFRESH_DATA,
     REFRESH_ERROR,
-    CHANGE_REFRESH_COUNT
+    REFRESH_INIT,
+    CHANGE_REFRESH_COUNT,
+    SET_SCROLL_HANDLER
 } from './mutation-types';
 import {
     LOAD_USER_INFO
@@ -52,17 +54,24 @@ const appStore = {
                 userAvatar: '/static/img/user_head_img.png'
             },
             refreshInfo: {
-                refreshFlag: 0,
-                refreshCount: 0
-            }
+                refreshFlag: false,
+                refreshCount: 0,
+                refreshFailed: false
+            },
+            scrollHandler: () => {}
         };
     },
     mutations: {
         [GO_PAGE](state, page) {
             if (state.currentPage.path !== page.path) {
+                let scrollLocation = state.scrollHandler();
+                if (scrollLocation) {
+                    state.currentPage.scrollLocation = scrollLocation;
+                }
                 pageStack.push(state.currentPage);
                 state.currentPage = { ...page
                 };
+                state.scrollHandler = () => {};
             }
         },
         [BACK_PAGE](state) {
@@ -76,7 +85,6 @@ const appStore = {
             name,
             avatar
         }) {
-            console.log('change info');
             if (id) {
                 state.userInfo.userId = id;
             }
@@ -89,10 +97,15 @@ const appStore = {
             state.userInfo.userName = name;
         },
         [REFRESH_DATA](state) {
-            state.refreshInfo.refreshFlag++;
+            state.refreshInfo.refreshFlag = true;
         },
         [REFRESH_ERROR](state) {
-
+            state.refreshInfo.refreshFailed = true;
+        },
+        [REFRESH_INIT](state) {
+            state.refreshInfo.refreshFlag = false;
+            state.refreshInfo.refreshCount = 0;
+            state.refreshInfo.refreshFailed = false;
         },
         [CHANGE_REFRESH_COUNT](state, {
             isAdd
@@ -102,20 +115,19 @@ const appStore = {
             } else {
                 state.refreshInfo.refreshCount--;
             }
+        },
+        [SET_SCROLL_HANDLER](state, {
+            handler
+        }) {
+            state.scrollHandler = handler;
         }
     },
     actions: {
         [LOAD_USER_INFO]({
             commit
         }) {
-            console.log('action');
-            DataService.getUserInfo().then((response) => {
-                if (response.data.status === 0) {
-                    let userInfo = response.data.result;
-                    commit(CHANGE_USER_INFO, userInfo);
-                } else {
-                    // TODO
-                }
+            DataService.getUserInfo((response) => {
+                commit(CHANGE_USER_INFO, response.result);
             }, (err) => {
                 console.log(err);
                 // TODO

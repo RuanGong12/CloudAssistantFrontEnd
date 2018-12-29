@@ -2,7 +2,7 @@
  * @Author: double7
  * @Date: 2018-12-28 19:02:29
  * @Last Modified by: double7
- * @Last Modified time: 2018-12-29 12:02:34
+ * @Last Modified time: 2018-12-29 22:28:57
  */
 
 <template>
@@ -26,7 +26,7 @@
                     <div
                         class="container-scroll"
                         @scroll="onscroll"
-                        ref="containerScroll"
+                        ref="indexContainerScroll"
                         v-bind:style="{ 'height': scrollHeight + 'px' }"
                     >
                         <index-top></index-top>
@@ -66,8 +66,12 @@ import IndexChannel from '@/components/IndexChannel.vue';
 import CourseRecommend from '@/components/CourseRecommend.vue';
 import IndexFooter from '@/components/IndexFooter.vue';
 import UserInfo from '@/views/UserInfo.vue';
-import { REFRESH_DATA } from '@/store/mutation-types';
-import { mapMutations } from 'vuex';
+import {
+    REFRESH_DATA,
+    SET_SCROLL_HANDLER,
+    REFRESH_INIT
+} from '@/store/mutation-types';
+import { mapState, mapMutations } from 'vuex';
 
 export default {
     data() {
@@ -86,19 +90,56 @@ export default {
         UserInfo: UserInfo
     },
     methods: {
-        ...mapMutations([REFRESH_DATA]),
+        ...mapMutations([REFRESH_DATA, SET_SCROLL_HANDLER, REFRESH_INIT]),
         onRefresh() {
             this[REFRESH_DATA]();
-            setTimeout(() => {
-                this.$toast('刷新成功');
-                this.isLoading = false;
-            }, 1000);
         },
         onscroll(event) {
             if (event.target.scrollTop === 0) {
                 this.refreshDisabled = false;
             } else if (!this.refreshDisabled) {
                 this.refreshDisabled = true;
+            }
+        }
+    },
+    computed: {
+        ...mapState({
+            currentPage: state => state.currentPage,
+            refreshCount: state => state.refreshInfo.refreshCount,
+            refreshFailed: state => state.refreshInfo.refreshFailed,
+            refreshFlag: state => state.refreshInfo.refreshFlag
+        })
+    },
+    mounted: function() {
+        this[SET_SCROLL_HANDLER]({
+            handler: () => {
+                return this.$refs.indexContainerScroll.scrollTop;
+            }
+        });
+        this.$nextTick(function() {
+            console.log(this.currentPage.scrollLocation);
+            setTimeout(() => {
+                this.$refs.indexContainerScroll.scrollTo(
+                    0,
+                    this.currentPage.scrollLocation
+                );
+            }, 50);
+        });
+    },
+    watch: {
+        refreshFailed: function(val) {
+            if (val) {
+                this.$toast('刷新失败');
+                this[REFRESH_INIT]();
+                this.isLoading = false;
+                console.log('failed');
+            }
+        },
+        refreshCount: function(val) {
+            if (this.refreshFlag && val === 0) {
+                this.$toast('刷新成功');
+                this[REFRESH_INIT]();
+                this.isLoading = false;
             }
         }
     }

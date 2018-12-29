@@ -2,7 +2,7 @@
  * @Author: double7
  * @Date: 2018-12-28 19:02:29
  * @Last Modified by: double7
- * @Last Modified time: 2018-12-29 10:48:31
+ * @Last Modified time: 2018-12-29 16:06:13
  */
 
 <template>
@@ -45,7 +45,7 @@ export default {
                     done(false);
                 } else {
                     try {
-                        let response = await DataService.setUserName('uiui');
+                        let response = await DataService.getUserInfoPromise('uiui');
                         if (response.data.status === 0) {
                             this[CHANGE_USER_INFO]({ name: this.editedName });
                             done();

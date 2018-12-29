@@ -2,7 +2,7 @@
  * @Author: double7
  * @Date: 2018-12-28 22:11:33
  * @Last Modified by: double7
- * @Last Modified time: 2018-12-29 11:27:45
+ * @Last Modified time: 2018-12-29 22:21:25
  */
 <template>
     <div>
@@ -12,7 +12,12 @@
                     <span class="header-title">热门课程</span>
                 </div>
                 <div>
-                    <course-list :listItems="listItems" :loading="loading" :finished="finished" :finishedText="finishedText"></course-list>
+                    <course-list
+                        :listItems="listItems"
+                        :loading="loading"
+                        :finished="finished"
+                        :finishedText="finishedText"
+                    ></course-list>
                 </div>
             </van-panel>
         </div>
@@ -54,14 +59,9 @@ export default {
         ...mapMutations([CHANGE_REFRESH_COUNT]),
         refresh() {
             this[CHANGE_REFRESH_COUNT]({ isAdd: true });
-            DataService.getRecommendCourses().then(
+            DataService.getRecommendCourses(
                 response => {
-                    if (response.data.status === 0) {
-                        let data = response.data.result;
-                        this.listItems = [...data];
-                    } else {
-                        // TODO
-                    }
+                    this.listItems = [...response.result];
                     this[CHANGE_REFRESH_COUNT]({ isAdd: false });
                 },
                 err => {
@@ -79,7 +79,9 @@ export default {
     },
     watch: {
         refreshFlag: function(val) {
-            this.refresh();
+            if (val) {
+                this.refresh();
+            }
         }
     },
     created: function() {
