@@ -1,12 +1,92 @@
+/*
+ * @Author: double7
+ * @Date: 2018-12-28 22:11:33
+ * @Last Modified by: double7
+ * @Last Modified time: 2018-12-29 11:27:45
+ */
 <template>
-    <div>this is course recommend component
-        <hr>
+    <div>
+        <div class="recommend-root">
+            <van-panel title="标题" desc="描述信息" status="状态">
+                <div slot="header" class="header van-hairline--bottom">
+                    <span class="header-title">热门课程</span>
+                </div>
+                <div>
+                    <course-list :listItems="listItems" :loading="loading" :finished="finished" :finishedText="finishedText"></course-list>
+                </div>
+            </van-panel>
+        </div>
     </div>
 </template>
 
 <style>
+.recommend-root {
+    margin-top: 5px;
+    border-bottom: #f0f0f0 solid 10px;
+}
+
+.header {
+    height: 32px;
+    color: #303133;
+    font-size: 1rem;
+    line-height: 32px;
+    text-align: center;
+    font-weight: bold;
+}
 </style>
 
 <script>
-export default {};
+import CourseList from '@/components/CourseList';
+import DataService from '@/api/DataService';
+import { mapState, mapMutations } from 'vuex';
+import { CHANGE_REFRESH_COUNT } from '@/store/mutation-types';
+
+export default {
+    data() {
+        return {
+            listItems: [],
+            loading: false,
+            finished: true,
+            finishedText: ''
+        };
+    },
+    methods: {
+        ...mapMutations([CHANGE_REFRESH_COUNT]),
+        refresh() {
+            this[CHANGE_REFRESH_COUNT]({ isAdd: true });
+            DataService.getRecommendCourses().then(
+                response => {
+                    if (response.data.status === 0) {
+                        let data = response.data.result;
+                        this.listItems = [...data];
+                    } else {
+                        // TODO
+                    }
+                    this[CHANGE_REFRESH_COUNT]({ isAdd: false });
+                },
+                err => {
+                    console.log(err);
+                    // TODO
+                    this[CHANGE_REFRESH_COUNT]({ isAdd: false });
+                }
+            );
+        }
+    },
+    computed: {
+        ...mapState({
+            refreshFlag: state => state.refreshInfo.refreshFlag
+        })
+    },
+    watch: {
+        refreshFlag: function(val) {
+            this.refresh();
+        }
+    },
+    created: function() {
+        this.refresh();
+    },
+    components: {
+        CourseList
+    }
+};
 </script>

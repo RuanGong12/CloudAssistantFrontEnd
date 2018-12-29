@@ -2,7 +2,7 @@
  * @Author: double7
  * @Date: 2018-12-28 19:02:29
  * @Last Modified by: double7
- * @Last Modified time: 2018-12-28 19:08:01
+ * @Last Modified time: 2018-12-29 10:51:51
  */
 
 <template>
@@ -98,13 +98,18 @@ import {
     MODULES_NAME,
     SHOW_USER_NAME_EDIT_DIALOG
 } from '@/store/mutation-types';
-import { mapState, mapMutations } from 'vuex';
+import {
+    LOAD_USER_INFO
+} from '@/store/action-types';
+import { mapState, mapMutations, mapActions } from 'vuex';
+// import DataService from '@/api/DataService';
 export default {
     data() {
         return {};
     },
     methods: {
-        ...mapMutations(MODULES_NAME.dialog, [SHOW_USER_NAME_EDIT_DIALOG]),
+        ...mapMutations(MODULES_NAME.dialog, [SHOW_USER_NAME_EDIT_DIALOG, LOAD_USER_INFO]),
+        ...mapActions([LOAD_USER_INFO]),
         showDialog() {
             this[SHOW_USER_NAME_EDIT_DIALOG]();
         },
@@ -116,6 +121,9 @@ export default {
         ...mapState({
             userInfo: state => state.userInfo
         })
+    },
+    created: function() {
+        this[LOAD_USER_INFO]();
     }
 };
 </script>

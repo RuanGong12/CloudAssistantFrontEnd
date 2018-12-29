@@ -1,0 +1,35 @@
+{
+    "status": 0,
+    "msg": "",
+    "result": [{
+            "id": "1",
+            "title": "2018math",
+            "cover": "/static/img/ads1.jpg",
+            "url": "https://www.icourse163.org/topics/2018math"
+        },
+        {
+            "id": "2",
+            "title": "ads2",
+            "cover": "/static/img/ads2.png",
+            "url": "https://www.icourse163.org/course/XJTU-1003707005"
+        },
+        {
+            "id": "3",
+            "title": "ads3",
+            "cover": "/static/img/ads3.jpg",
+            "url": "https://geek.163.com/topics/happynewyear2019/?utm_source=icourse163.org&utm_medium=web_banner&utm_campaign=happynewyear2019&utm_content=qxq1227"
+        },
+        {
+            "id": "4",
+            "title": "english",
+            "cover": "/static/img/ads4.png",
+            "url": "https://www.icourse163.org/course/bjut-1003539074?sy"
+        },
+        {
+            "id": "5",
+            "title": "ads5",
+            "cover": "/static/img/ads5.jpg",
+            "url": "https://www.icourse163.org/columns/1003605003.htm"
+        }
+    ]
+}

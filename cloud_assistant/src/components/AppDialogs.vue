@@ -2,7 +2,7 @@
  * @Author: double7
  * @Date: 2018-12-28 19:02:29
  * @Last Modified by: double7
- * @Last Modified time: 2018-12-28 19:10:51
+ * @Last Modified time: 2018-12-29 10:48:31
  */
 
 <template>
@@ -29,22 +29,36 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex';
-import { CHANGE_USER_NAME } from '@/store/mutation-types';
+import { CHANGE_USER_INFO } from '@/store/mutation-types';
+import DataService from '@/api/DataService';
 export default {
     data() {
         return { editedName: '', showConfirmButton: true };
     },
     methods: {
-        ...mapMutations([CHANGE_USER_NAME]),
-        handleNameEdit(action, done) {
+        ...mapMutations([CHANGE_USER_INFO]),
+        async handleNameEdit(action, done) {
             if (action === 'cancel') {
                 done();
             } else {
                 if (this.errorMessage !== '') {
                     done(false);
                 } else {
-                    this[CHANGE_USER_NAME]({ name: this.editedName });
-                    done();
+                    try {
+                        let response = await DataService.setUserName('uiui');
+                        if (response.data.status === 0) {
+                            this[CHANGE_USER_INFO]({ name: this.editedName });
+                            done();
+                        } else {
+                            // TODO
+                            done(false);
+                        }
+                        done();
+                    } catch (err) {
+                        // TODO
+                        console.log(err);
+                        done(false);
+                    }
                 }
             }
         },

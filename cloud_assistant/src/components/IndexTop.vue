@@ -2,14 +2,16 @@
  * @Author: double7
  * @Date: 2018-12-28 19:02:29
  * @Last Modified by: double7
- * @Last Modified time: 2018-12-28 19:06:22
+ * @Last Modified time: 2018-12-29 11:25:54
  */
 
 <template>
     <div class="index-top">
         <van-swipe :autoplay="3000" :height="180">
             <van-swipe-item v-for="item in swipeData" :key="item.id">
-                <img class="swipe-item-img" v-lazy="item.cover" :alt="item.title">
+                <a :href="item.url" target="_blank">
+                    <img class="swipe-item-img" v-lazy="item.cover" :alt="item.title">
+                </a>
             </van-swipe-item>
         </van-swipe>
     </div>
@@ -30,16 +32,50 @@
 </style>
 
 <script>
-import DataProvider from '@/api/DataProvider';
+import DataService from '@/api/DataService';
+import { mapState, mapMutations } from 'vuex';
+import { CHANGE_REFRESH_COUNT } from '@/store/mutation-types';
 
 export default {
     data() {
         return {
-            swipeData: null
+            swipeData: []
         };
     },
+    methods: {
+        ...mapMutations([CHANGE_REFRESH_COUNT]),
+        refresh() {
+            this[CHANGE_REFRESH_COUNT]({ isAdd: true });
+            DataService.getSwipeData().then(
+                response => {
+                    if (response.data.status === 0) {
+                        let data = response.data.result;
+                        this.swipeData = [...data];
+                    } else {
+                        // TODO
+                    }
+                    this[CHANGE_REFRESH_COUNT]({ isAdd: false });
+                },
+                err => {
+                    console.log(err);
+                    // TODO
+                    this[CHANGE_REFRESH_COUNT]({ isAdd: false });
+                }
+            );
+        }
+    },
+    computed: {
+        ...mapState({
+            refreshFlag: state => state.refreshInfo.refreshFlag
+        })
+    },
     created: function() {
-        this.swipeData = DataProvider.getSwipeData();
+        this.refresh();
+    },
+    watch: {
+        refreshFlag: function(val) {
+            this.refresh();
+        }
     }
 };
 </script>
