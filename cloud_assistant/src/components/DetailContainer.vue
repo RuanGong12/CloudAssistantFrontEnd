@@ -2,13 +2,18 @@
  * @Author: double7
  * @Date: 2018-12-30 11:30:26
  * @Last Modified by: double7
- * @Last Modified time: 2018-12-30 16:18:03
+ * @Last Modified time: 2018-12-30 22:18:46
  */
 
 <template>
     <div>
         <div class="icon-warp">
-            <van-icon name="like-o" color="#000" class="icon-like"></van-icon>
+            <van-icon
+                :name="likeIconName"
+                :color="likeIconColor"
+                class="icon-like"
+                @click="changeLike"
+            ></van-icon>
         </div>
         <van-pull-refresh v-model="isLoading" @refresh="onRefresh" :disabled="refreshDisabled">
             <div
@@ -17,8 +22,8 @@
                 :style="{ 'height': scrollHeight + 'px' }"
                 @scroll="onscroll"
             >
-                <detail-top :courseTopData="courseTopData"></detail-top>
-                <detail-info :courseInfoData="courseInfoData"></detail-info>
+                <detail-top :detailTopData="detailTopData"></detail-top>
+                <detail-info :detailInfoData="detailInfoData"></detail-info>
                 <detail-comment></detail-comment>
             </div>
         </van-pull-refresh>
@@ -67,8 +72,9 @@ export default {
             scrollHeight: document.body.clientHeight - 48,
             isLoading: false,
             refreshDisabled: false,
-            courseTopData: {},
-            courseInfoData: {}
+            detailTopData: {},
+            detailInfoData: {},
+            isLike: false
         };
     },
     methods: {
@@ -85,11 +91,48 @@ export default {
         },
         refresh() {
             this[CHANGE_REFRESH_COUNT]({ isAdd: true });
-            DataService.getCourseDetail(
+            let getDetail;
+            let useCache = true;
+            let isCourse;
+            if (this.$route.name === 'CourseDetail') {
+                isCourse = true;
+                getDetail = DataService.getCourseDetail;
+            } else {
+                isCourse = false;
+                getDetail = DataService.getLectureDetail;
+            }
+            if (isCourse) {
+                if (this.detailInfoData.hasRated === 1) {
+                    console.log('hasRated');
+                    useCache = true;
+                } else {
+                    useCache = false;
+                }
+            }
+            getDetail(
                 response => {
-                    let {title, school, cover, teachers, time, tags, rate, description} = response.result;
-                    this.courseTopData = {cover, time, tags};
-                    this.courseInfoData = {title, school, teachers, rate, description};
+                    let {
+                        title,
+                        school,
+                        cover,
+                        teachers,
+                        time,
+                        tags,
+                        rate,
+                        hasRated,
+                        isLike,
+                        description
+                    } = response.result;
+                    this.detailTopData = { cover, time, tags };
+                    this.detailInfoData = {
+                        title,
+                        school,
+                        teachers,
+                        rate,
+                        hasRated,
+                        description
+                    };
+                    this.isLike = isLike === 1;
                     this[CHANGE_REFRESH_COUNT]({ isAdd: false });
                 },
                 err => {
@@ -97,7 +140,35 @@ export default {
                     // TODO
                     this[CHANGE_REFRESH_COUNT]({ isAdd: false });
                 },
-                { courseId: this.$route.params.courseId }
+                { id: this.$route.params.id },
+                useCache
+            );
+        },
+        changeLike() {
+            this.isLike = !this.isLike;
+            let putLike;
+            if (this.$route.name === 'CourseDetail') {
+                putLike = DataService.putCourseLike;
+            } else {
+                putLike = DataService.putLectureLike;
+            }
+            putLike(
+                response => {
+                    this.$toast({
+                        duration: 1000,
+                        message: this.isLike ? '收藏成功' : '取消成功',
+                        type: 'success'
+                    });
+                },
+                err => {
+                    console.log(err);
+                    this.$toast({
+                        duration: 1000,
+                        message: '操作失败',
+                        type: 'fail'
+                    });
+                },
+                { userId: this.userId, id: this.$route.params.id }
             );
         }
     },
@@ -105,8 +176,23 @@ export default {
         ...mapState({
             refreshCount: state => state.refreshInfo.refreshCount,
             refreshFailed: state => state.refreshInfo.refreshFailed,
-            refreshFlag: state => state.refreshInfo.refreshFlag
-        })
+            refreshFlag: state => state.refreshInfo.refreshFlag,
+            userId: state => state.userInfo.userId
+        }),
+        likeIconName() {
+            if (this.isLike) {
+                return 'like';
+            } else {
+                return 'like-o';
+            }
+        },
+        likeIconColor() {
+            if (this.isLike) {
+                return '#f44';
+            } else {
+                return '#000';
+            }
+        }
     },
     components: {
         DetailTop,
@@ -116,7 +202,11 @@ export default {
     watch: {
         refreshFailed: function(val) {
             if (val) {
-                this.$toast('刷新失败');
+                this.$toast({
+                    duration: 1000,
+                    message: '刷新成功',
+                    type: 'success'
+                });
                 this[REFRESH_INIT]();
                 this.isLoading = false;
                 console.log('failed');
@@ -124,9 +214,18 @@ export default {
         },
         refreshCount: function(val) {
             if (this.refreshFlag && val === 0) {
-                this.$toast('刷新成功');
+                this.$toast({
+                    duration: 1000,
+                    message: '刷新成功',
+                    type: 'success'
+                });
                 this[REFRESH_INIT]();
                 this.isLoading = false;
+            }
+        },
+        refreshFlag: function(val) {
+            if (val) {
+                this.refresh();
             }
         }
     },

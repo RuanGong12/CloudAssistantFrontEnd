@@ -2,7 +2,7 @@
  * @Author: double7
  * @Date: 2018-12-28 19:02:29
  * @Last Modified by: double7
- * @Last Modified time: 2018-12-30 19:19:06
+ * @Last Modified time: 2018-12-30 22:03:11
  */
 
 import Vue from 'vue';
@@ -26,7 +26,7 @@ export default new Router({
             component: Search
         },
         {
-            path: '/course/:courseId',
+            path: '/course/:id',
             name: 'CourseDetail',
             component: CourseDetail
         }

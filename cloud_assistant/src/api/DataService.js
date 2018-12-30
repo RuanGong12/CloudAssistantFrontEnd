@@ -2,7 +2,7 @@
  * @Author: double7
  * @Date: 2018-12-28 19:05:06
  * @Last Modified by: double7
- * @Last Modified time: 2018-12-30 19:45:32
+ * @Last Modified time: 2018-12-30 22:12:58
  */
 
 import axios from 'axios';
@@ -16,6 +16,7 @@ const errRes = {
 
 let dataCache = {
     CourseDetail: {},
+    LectureDetail: {},
     Comments: {}
 };
 
@@ -112,11 +113,11 @@ let getRecommendCourses = (resolve, reject, useCache = true) => {
 };
 
 let getCourseDetail = (resolve, reject, {
-    courseId
+    id
 }, useCache = true) => {
     if (useCache) {
-        if (dataCache.CourseDetail[courseId]) {
-            resolve(dataCache.CourseDetail[courseId]);
+        if (dataCache.CourseDetail[id]) {
+            resolve(dataCache.CourseDetail[id]);
             return;
         }
     }
@@ -125,7 +126,32 @@ let getCourseDetail = (resolve, reject, {
             if (response.data.status !== 0) {
                 reject(response.data);
             } else {
-                dataCache.CourseDetail[courseId] = response.data;
+                dataCache.CourseDetail[id] = response.data;
+                resolve(response.data);
+            }
+        },
+        err => {
+            console.log(err);
+            reject(errRes);
+        }
+    );
+};
+
+let getLectureDetail = (resolve, reject, {
+    id
+}, useCache = true) => {
+    if (useCache) {
+        if (dataCache.LectureDetail[id]) {
+            resolve(dataCache.LectureDetail[id]);
+            return;
+        }
+    }
+    axios.get('/static/mock/LectureDetail.json').then(
+        response => {
+            if (response.data.status !== 0) {
+                reject(response.data);
+            } else {
+                dataCache.LectureDetail[id] = response.data;
                 resolve(response.data);
             }
         },
@@ -138,21 +164,21 @@ let getCourseDetail = (resolve, reject, {
 
 let getLectureComment = (resolve,
     reject, {
-        lectureId
+        id
     }, useCache = false) => {
     getComment(resolve, reject, {
         url: '/static/mock/LectureComment.json',
-        id: lectureId
+        id
     });
 };
 
 let getCourseComment = (resolve,
     reject, {
-        courseId
+        id
     }, useCache = false) => {
     getComment(resolve, reject, {
         url: '/static/mock/CourseComment.json',
-        id: courseId
+        id
     });
 };
 
@@ -201,6 +227,58 @@ let postLectureCommentPromise = ({
     return axios.get('/static/mock/SucceedRes.json');
 };
 
+let postCourseRate = ({
+    id,
+    rate
+}) => {
+    // TODO
+    // return axios.post('', {id, rate});
+    return axios.get('/static/mock/SucceedRes.json');
+};
+
+let putCourseLike = (resolve, reject, {
+    userId,
+    id
+}) => {
+    putLike(resolve, reject, {
+        url: '',
+        userId,
+        id
+    });
+};
+
+let putLectureLike = (resolve, reject, {
+    userId,
+    id
+}) => {
+    putLike(resolve, reject, {
+        url: '',
+        userId,
+        id
+    });
+};
+
+let putLike = (resolve, reject, {
+    url,
+    userId,
+    id
+}) => {
+    // TODO
+    // axios.put(url, {userId, id}).then();
+    axios.get('/static/mock/SucceedRes.json').then(
+        response => {
+            if (response.data.status !== 0) {
+                reject(response.data);
+            } else {
+                resolve(response.data);
+            }
+        },
+        err => {
+            console.log(err);
+            reject(errRes);
+        }
+    );
+};
 export default {
     getSwipeData,
     getUserInfo,
@@ -208,8 +286,12 @@ export default {
     getUserInfoPromise,
     getRecommendCourses,
     getCourseDetail,
+    getLectureDetail,
     getCourseComment,
     getLectureComment,
     postCourseCommentPromise,
-    postLectureCommentPromise
+    postLectureCommentPromise,
+    postCourseRate,
+    putCourseLike,
+    putLectureLike
 };

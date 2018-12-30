@@ -2,7 +2,7 @@
  * @Author: double7
  * @Date: 2018-12-28 19:02:29
  * @Last Modified by: double7
- * @Last Modified time: 2018-12-30 19:45:55
+ * @Last Modified time: 2018-12-30 22:00:50
  */
 
 <template>
@@ -43,8 +43,35 @@
                 </van-panel>
             </van-dialog>
         </div>
+        <div>
+            <van-dialog
+                v-model="rateDialog.showFlag"
+                :before-close="handleRate"
+                show-cancel-button
+                :showConfirmButton="true"
+            >
+                <div class="dialog-rate-container">
+                    <van-rate class="dialog-detail-rate" :size="25" v-model="rate"></van-rate>
+                </div>
+            </van-dialog>
+        </div>
     </div>
 </template>
+
+<style>
+.dialog-detail-rate {
+    padding: 3px;
+}
+
+.dialog-rate-container {
+    margin: 10px auto;
+    width: 155px;
+}
+
+.van-cell-group.van-hairline--top-bottom.van-panel::after {
+    border: none;
+}
+</style>
 
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex';
@@ -52,7 +79,12 @@ import { REFRESH_DATA } from '@/store/mutation-types';
 import { POST_USER_INFO, POST_COMMENT } from '@/store/action-types';
 export default {
     data() {
-        return { editedName: '', showConfirmButton: true, comment: '' };
+        return {
+            editedName: '',
+            showConfirmButton: true,
+            comment: '',
+            rate: 0
+        };
     },
     methods: {
         ...mapMutations([REFRESH_DATA]),
@@ -70,11 +102,25 @@ export default {
                         });
                         if (response) {
                             done();
+                            this.$toast({
+                                duration: 1000,
+                                message: '修改成功',
+                                type: 'success'
+                            });
                         } else {
-                            this.$toast('修改失败');
+                            this.$toast({
+                                duration: 1000,
+                                message: '修改失败',
+                                type: 'fail'
+                            });
                             done(false);
                         }
                     } catch (err) {
+                        this.$toast({
+                            duration: 1000,
+                            message: '修改失败',
+                            type: 'fail'
+                        });
                         done(false);
                     }
                 }
@@ -89,23 +135,61 @@ export default {
                 } else {
                     let param = {
                         comment: this.comment,
-                        routeName: this.$route.name
+                        routeName: this.$route.name,
+                        id: this.$route.params.id
                     };
-                    if (param.routeName === 'CourseDetail') {
-                        param.id = this.$route.params.courseId;
-                    } else {
-                        param.id = this.$route.params.lectureId;
-                    }
                     try {
                         let response = await this[POST_COMMENT](param);
                         if (response) {
                             done();
                             this[REFRESH_DATA]();
                         } else {
-                            this.$toast('修改失败');
+                            this.$toast({
+                                duration: 1000,
+                                message: '评论失败',
+                                type: 'fail'
+                            });
                             done(false);
                         }
                     } catch (err) {
+                        this.$toast({
+                            duration: 1000,
+                            message: '评论失败',
+                            type: 'fail'
+                        });
+                        done(false);
+                    }
+                }
+            }
+        },
+        async handleRate(action, done) {
+            if (action === 'cancel') {
+                done();
+            } else {
+                if (this.nameErrorMessage !== '') {
+                    done(false);
+                } else {
+                    try {
+                        let response = await this[POST_USER_INFO]({
+                            name: this.editedName
+                        });
+                        if (response) {
+                            this[REFRESH_DATA]();
+                            done();
+                        } else {
+                            this.$toast({
+                                duration: 1000,
+                                message: '评分失败',
+                                type: 'fail'
+                            });
+                            done(false);
+                        }
+                    } catch (err) {
+                        this.$toast({
+                            duration: 1000,
+                            message: '评分失败',
+                            type: 'fail'
+                        });
                         done(false);
                     }
                 }
@@ -118,7 +202,8 @@ export default {
     computed: {
         ...mapState({
             userNameEditDialog: state => state.dialogModule.userNameEditDialog,
-            addCommentDialog: state => state.dialogModule.addCommentDialog
+            addCommentDialog: state => state.dialogModule.addCommentDialog,
+            rateDialog: state => state.dialogModule.rateDialog
         }),
         nameErrorMessage() {
             let val = this.editedName;
@@ -154,7 +239,6 @@ export default {
         }
     },
     created: function() {
-        console.log('dialog created');
         this.editedName = this.$store.state.userInfo.userName;
     }
 };

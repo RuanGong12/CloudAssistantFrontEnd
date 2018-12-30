@@ -2,21 +2,21 @@
  * @Author: double7
  * @Date: 2018-12-30 11:30:21
  * @Last Modified by: double7
- * @Last Modified time: 2018-12-30 15:31:07
+ * @Last Modified time: 2018-12-30 21:27:39
  */
 <template>
     <section class="main-card">
         <div class="top-container">
             <div
                 class="detail-cover"
-                v-lazy:background-image="courseTopData.cover"
+                v-lazy:background-image="detailTopData.cover"
             ></div>
             <div class="info" :style="{'width': clientWidth - 240 + 'px'}">
                 <div class="timeInfo">
-                    <p v-for="time in courseTopData.time" :key="time">{{ time }}</p>
+                    <p v-for="time in detailTopData.time" :key="time">{{ time }}</p>
                 </div>
                 <div class="tags">
-                    <div class="detail-tag" v-for="tag in courseTopData.tags" :key="tag">{{ tag }}</div>
+                    <div class="detail-tag" v-for="tag in detailTopData.tags" :key="tag">{{ tag }}</div>
                 </div>
             </div>
         </div>
@@ -93,7 +93,7 @@
 
 <script>
 export default {
-    props: ['courseTopData'],
+    props: ['detailTopData'],
     data() {
         return { clientWidth: document.body.clientWidth };
     }

@@ -2,7 +2,7 @@
  * @Author: double7
  * @Date: 2018-12-30 11:51:31
  * @Last Modified by: double7
- * @Last Modified time: 2018-12-30 19:31:11
+ * @Last Modified time: 2018-12-30 22:14:41
  */
 
 <template>
@@ -97,7 +97,7 @@ export default {
                     // TODO
                     this[CHANGE_REFRESH_COUNT]({ isAdd: false });
                 },
-                { courseId: this.$route.params.courseId }
+                { id: this.$route.params.id }
             );
         },
         showDialog() {

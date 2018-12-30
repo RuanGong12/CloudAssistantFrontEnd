@@ -2,7 +2,7 @@
  * @Author: double7
  * @Date: 2018-12-30 11:38:12
  * @Last Modified by: double7
- * @Last Modified time: 2018-12-30 19:50:57
+ * @Last Modified time: 2018-12-30 21:25:59
  */
 
 <template>
@@ -10,22 +10,24 @@
         <div class="info-container">
             <div class="detail-title">
                 <p class="van-ellipsis">
-                    <span>{{ courseInfoData.title }}</span>
+                    <span>{{ detailInfoData.title }}</span>
                 </p>
             </div>
             <div class="van-hairline--bottom">
-                <span class="school">{{ courseInfoData.school }}</span>
-                <span class="teacher" v-for="teacher in courseInfoData.teachers" :key="teacher">{{ teacher }}</span>
+                <span class="school">{{ detailInfoData.school }}</span>
+                <span
+                    class="teacher"
+                    v-for="teacher in detailInfoData.teachers"
+                    :key="teacher"
+                >{{ teacher }}</span>
             </div>
             <div class="van-hairline--bottom">
                 <div class="rate-container float-clear-block" @click="addRate">
                     <div>评分</div>
-                    <van-rate class="detail-rate" :size="25" v-model="courseInfoData.rate" readonly></van-rate>
+                    <van-rate class="detail-rate" :size="25" v-model="detailInfoData.rate" readonly></van-rate>
                 </div>
             </div>
-            <div
-                class="detail-description"
-            >{{ courseInfoData.description }}</div>
+            <div class="detail-description">{{ detailInfoData.description }}</div>
         </div>
     </section>
 </template>
@@ -98,16 +100,23 @@
 </style>
 
 <script>
+import { MODULES_NAME, SHOW_RATE_DIALOG } from '@/store/mutation-types';
+import { mapMutations } from 'vuex';
 export default {
-    props: ['courseInfoData'],
+    props: ['detailInfoData'],
     data() {
         return {
             rateValue: 0
         };
     },
     methods: {
+        ...mapMutations(MODULES_NAME.dialog, [SHOW_RATE_DIALOG]),
         addRate() {
-            console.log('rade');
+            if (this.detailInfoData.hasRated === 'true') {
+                this.$toast('你已经评分过了');
+            } else {
+                this[SHOW_RATE_DIALOG]();
+            }
         }
     }
 };

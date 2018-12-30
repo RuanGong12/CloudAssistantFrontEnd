@@ -2,7 +2,7 @@
  * @Author: double7
  * @Date: 2018-12-28 19:02:29
  * @Last Modified by: double7
- * @Last Modified time: 2018-12-30 12:18:02
+ * @Last Modified time: 2018-12-30 21:40:02
  */
 
 <template>
@@ -117,7 +117,6 @@ export default {
             }
         });
         this.$nextTick(function() {
-            console.log(this.currentPage.scrollLocation);
             setTimeout(() => {
                 this.$refs.indexContainerScroll.scrollTo(
                     0,
@@ -129,7 +128,11 @@ export default {
     watch: {
         refreshFailed: function(val) {
             if (val) {
-                this.$toast('刷新失败');
+                this.$toast({
+                    duration: 1000,
+                    message: '刷新失败',
+                    type: 'fail'
+                });
                 this[REFRESH_INIT]();
                 this.isLoading = false;
                 console.log('failed');
@@ -137,7 +140,11 @@ export default {
         },
         refreshCount: function(val) {
             if (this.refreshFlag && val === 0) {
-                this.$toast('刷新成功');
+                this.$toast({
+                    duration: 1000,
+                    message: '刷新成功',
+                    type: 'success'
+                });
                 this[REFRESH_INIT]();
                 this.isLoading = false;
             }

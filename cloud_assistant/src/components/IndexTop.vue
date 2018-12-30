@@ -2,7 +2,7 @@
  * @Author: double7
  * @Date: 2018-12-28 19:02:29
  * @Last Modified by: double7
- * @Last Modified time: 2018-12-30 16:18:44
+ * @Last Modified time: 2018-12-30 22:22:22
  */
 
 <template>
@@ -10,7 +10,7 @@
         <van-swipe :autoplay="3000" :height="180">
             <van-swipe-item v-for="item in swipeData" :key="item.id">
                 <a :href="item.url" target="_blank">
-                    <img class="swipe-item-img" v-lazy="item.cover" :alt="item.title">
+                    <img class="swipe-item-img" :src="item.cover" :alt="item.title">
                 </a>
             </van-swipe-item>
         </van-swipe>
