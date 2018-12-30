@@ -2,7 +2,7 @@
  * @Author: double7
  * @Date: 2018-12-28 22:11:33
  * @Last Modified by: double7
- * @Last Modified time: 2018-12-29 22:21:25
+ * @Last Modified time: 2018-12-30 10:55:40
  */
 <template>
     <div>
@@ -27,14 +27,17 @@
 <style>
 .recommend-root {
     margin-top: 5px;
+    padding: 0 20px;
     border-bottom: #f0f0f0 solid 10px;
+    background: #fff;
 }
 
 .header {
-    height: 32px;
+    position: relative;
+    height: 40px;
     color: #303133;
     font-size: 1rem;
-    line-height: 32px;
+    line-height: 40px;
     text-align: center;
     font-weight: bold;
 }

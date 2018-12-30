@@ -2,7 +2,7 @@
  * @Author: double7
  * @Date: 2018-12-28 19:02:29
  * @Last Modified by: double7
- * @Last Modified time: 2018-12-29 23:51:30
+ * @Last Modified time: 2018-12-30 11:21:03
  */
 
 <template>
@@ -17,6 +17,9 @@
                     <span id="user-name-text">{{userInfo.userName}}</span>
                     <van-icon name="edit" class="icon-button-edit" @click="showDialog"></van-icon>
                 </p>
+            </div>
+            <div class="user-id">
+                <span>{{ userInfo.userId }}</span>
             </div>
         </div>
         <van-cell-group class="user-channel">
@@ -74,6 +77,18 @@
     position: relative;
 }
 
+.user-id {
+    margin: auto auto;
+    padding: 5px;
+    text-align: center;
+    font-size: 1rem;
+    color: #909399;
+}
+
+.user-id::before {
+    content: 'id:'
+}
+
 .icon-button-edit {
     position: absolute;
     font-size: 25px;
@@ -98,9 +113,7 @@ import {
     MODULES_NAME,
     SHOW_USER_NAME_EDIT_DIALOG
 } from '@/store/mutation-types';
-import {
-    LOAD_USER_INFO
-} from '@/store/action-types';
+import { LOAD_USER_INFO } from '@/store/action-types';
 import { mapState, mapMutations, mapActions } from 'vuex';
 // import DataService from '@/api/DataService';
 export default {
@@ -108,7 +121,10 @@ export default {
         return {};
     },
     methods: {
-        ...mapMutations(MODULES_NAME.dialog, [SHOW_USER_NAME_EDIT_DIALOG, LOAD_USER_INFO]),
+        ...mapMutations(MODULES_NAME.dialog, [
+            SHOW_USER_NAME_EDIT_DIALOG,
+            LOAD_USER_INFO
+        ]),
         ...mapActions([LOAD_USER_INFO]),
         showDialog() {
             this[SHOW_USER_NAME_EDIT_DIALOG]();

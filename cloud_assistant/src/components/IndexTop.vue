@@ -2,7 +2,7 @@
  * @Author: double7
  * @Date: 2018-12-28 19:02:29
  * @Last Modified by: double7
- * @Last Modified time: 2018-12-29 23:40:23
+ * @Last Modified time: 2018-12-30 10:08:52
  */
 
 <template>
@@ -19,9 +19,11 @@
 
 <style>
 .index-top {
-    margin-top: 5px;
+    /* margin-top: 5px; */
     padding: 10px 10px;
     border-bottom: #f0f0f0 solid 10px;
+    border-top: #f0f0f0 solid 10px;
+    background: #fff;
 }
 
 .swipe-item-img {
