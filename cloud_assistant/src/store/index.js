@@ -2,7 +2,7 @@
  * @Author: double7
  * @Date: 2018-12-28 19:02:29
  * @Last Modified by: double7
- * @Last Modified time: 2018-12-30 20:39:19
+ * @Last Modified time: 2018-12-30 23:41:32
  */
 
 import Vue from 'vue';
@@ -179,6 +179,7 @@ const appStore = {
             });
         },
         [POST_COMMENT]({
+            state,
             commit
         }, {
             id,
@@ -193,6 +194,7 @@ const appStore = {
             }
             return new Promise((resolve, reject) => {
                 postComment({
+                    userId: state.userInfo.userId,
                     id,
                     comment
                 }).then(response => {
