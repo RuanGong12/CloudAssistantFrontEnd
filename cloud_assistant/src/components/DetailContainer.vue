@@ -2,7 +2,7 @@
  * @Author: double7
  * @Date: 2018-12-30 11:30:26
  * @Last Modified by: double7
- * @Last Modified time: 2018-12-31 00:11:37
+ * @Last Modified time: 2018-12-31 00:12:56
  */
 
 <template>
@@ -140,7 +140,7 @@ export default {
                     // TODO
                     this[CHANGE_REFRESH_COUNT]({ isAdd: false });
                 },
-                { id: this.$route.params.id, userId:this.userId },
+                { id: this.$route.params.id, userId: this.userId },
                 useCache
             );
         },
