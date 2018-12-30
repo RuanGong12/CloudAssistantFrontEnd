@@ -2,7 +2,7 @@
  * @Author: double7
  * @Date: 2018-12-30 11:38:12
  * @Last Modified by: double7
- * @Last Modified time: 2018-12-30 11:50:43
+ * @Last Modified time: 2018-12-30 19:50:57
  */
 
 <template>
@@ -10,23 +10,22 @@
         <div class="info-container">
             <div class="detail-title">
                 <p class="van-ellipsis">
-                    <span>神奇的材料世界</span>
+                    <span>{{ courseInfoData.title }}</span>
                 </p>
             </div>
             <div class="van-hairline--bottom">
-                <span class="school">材料学院</span>
-                <span class="teacher">文进</span>
-                <span class="teacher">赵春霞</span>
+                <span class="school">{{ courseInfoData.school }}</span>
+                <span class="teacher" v-for="teacher in courseInfoData.teachers" :key="teacher">{{ teacher }}</span>
             </div>
             <div class="van-hairline--bottom">
-                <div class="rate-container float-clear-block">
+                <div class="rate-container float-clear-block" @click="addRate">
                     <div>评分</div>
-                    <van-rate class="detail-rate" :size="25" v-model="rateValue" readonly></van-rate>
+                    <van-rate class="detail-rate" :size="25" v-model="courseInfoData.rate" readonly></van-rate>
                 </div>
             </div>
             <div
                 class="detail-description"
-            >形形色色的材料构成了丰富多彩的物质世界，为我们创造了美好的生活,推进了人类文明的发展，影响和改变了我们的生活。玻璃、陶瓷、金属和塑料…….这些神奇物质是如何改变我们的世界？新材料的出现会给我们带来哪些惊喜？想知道背后精彩的科学故事和相关科学原理吗？让我们一起走进神奇的材料世界。</div>
+            >{{ courseInfoData.description }}</div>
         </div>
     </section>
 </template>
@@ -63,6 +62,7 @@
 
 .rate-container {
     margin-top: 10px;
+    width: 200px;
 }
 
 .rate-container * {
@@ -99,10 +99,16 @@
 
 <script>
 export default {
+    props: ['courseInfoData'],
     data() {
         return {
             rateValue: 0
         };
+    },
+    methods: {
+        addRate() {
+            console.log('rade');
+        }
     }
 };
 </script>

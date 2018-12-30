@@ -2,7 +2,7 @@
  * @Author: double7
  * @Date: 2018-12-28 19:02:29
  * @Last Modified by: double7
- * @Last Modified time: 2018-12-29 16:41:01
+ * @Last Modified time: 2018-12-30 19:26:55
  */
 
 const MODULES_NAME = {
@@ -12,6 +12,8 @@ const MODULES_NAME = {
 const BACK_PAGE = 'back_page';
 const GO_PAGE = 'go_page';
 const SHOW_USER_NAME_EDIT_DIALOG = 'showUserNameEditDialog';
+const SHOW_ADD_COMMENT_DIALOG = 'showAddCommentDialog';
+const SHOW_RATE_DIALOG = 'showRateDialog';
 const CHANGE_USER_INFO = 'changeUserINFO';
 const REFRESH_DATA = 'refreshData';
 const REFRESH_ERROR = 'refreshError';
@@ -24,6 +26,8 @@ export {
     BACK_PAGE,
     GO_PAGE,
     SHOW_USER_NAME_EDIT_DIALOG,
+    SHOW_ADD_COMMENT_DIALOG,
+    SHOW_RATE_DIALOG,
     CHANGE_USER_INFO,
     REFRESH_DATA,
     REFRESH_ERROR,

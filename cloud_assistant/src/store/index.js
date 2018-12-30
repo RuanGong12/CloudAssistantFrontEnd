@@ -2,7 +2,7 @@
  * @Author: double7
  * @Date: 2018-12-28 19:02:29
  * @Last Modified by: double7
- * @Last Modified time: 2018-12-29 23:38:09
+ * @Last Modified time: 2018-12-30 19:45:28
  */
 
 import Vue from 'vue';
@@ -11,15 +11,18 @@ import {
     BACK_PAGE,
     GO_PAGE,
     SHOW_USER_NAME_EDIT_DIALOG,
-    CHANGE_USER_INFO,
+    SHOW_ADD_COMMENT_DIALOG,
     REFRESH_DATA,
     REFRESH_ERROR,
     REFRESH_INIT,
     CHANGE_REFRESH_COUNT,
-    SET_SCROLL_HANDLER
+    SET_SCROLL_HANDLER,
+    CHANGE_USER_INFO
 } from './mutation-types';
 import {
-    LOAD_USER_INFO
+    LOAD_USER_INFO,
+    POST_USER_INFO,
+    POST_COMMENT
 } from './action-types';
 import Pages from '@/router/Pages';
 import DataService from '@/api/DataService';
@@ -32,12 +35,18 @@ const dialogModule = {
         return {
             userNameEditDialog: {
                 showFlag: false
+            },
+            addCommentDialog: {
+                showFlag: false
             }
         };
     },
     mutations: {
         [SHOW_USER_NAME_EDIT_DIALOG](state) {
             state.userNameEditDialog.showFlag = true;
+        },
+        [SHOW_ADD_COMMENT_DIALOG](state) {
+            state.addCommentDialog.showFlag = true;
         }
     }
 };
@@ -80,22 +89,6 @@ const appStore = {
                 };
             }
         },
-        [CHANGE_USER_INFO](state, {
-            id,
-            name,
-            avatar
-        }) {
-            if (id) {
-                state.userInfo.userId = id;
-            }
-            if (name) {
-                state.userInfo.userName = name;
-            }
-            if (avatar) {
-                state.userInfo.userAvatar = avatar;
-            }
-            state.userInfo.userName = name;
-        },
         [REFRESH_DATA](state) {
             state.refreshInfo.refreshFlag = true;
         },
@@ -120,6 +113,22 @@ const appStore = {
             handler
         }) {
             state.scrollHandler = handler;
+        },
+        [CHANGE_USER_INFO](state, {
+            id,
+            name,
+            avatar
+        }) {
+            console.log('in change');
+            if (id) {
+                state.userInfo.userId = id;
+            }
+            if (name) {
+                state.userInfo.userName = name;
+            }
+            if (avatar) {
+                state.userInfo.userAvatar = avatar;
+            }
         }
     },
     actions: {
@@ -131,6 +140,65 @@ const appStore = {
             }, (err) => {
                 console.log(err);
                 // TODO
+            });
+        },
+        [POST_USER_INFO]({
+            state,
+            commit
+        }, {
+            name,
+            avatar
+        }) {
+            return new Promise((resolve, reject) => {
+                DataService.setUserInfoPromise({
+                    id: state.userInfo.userId,
+                    name,
+                    avatar
+                }).then(response => {
+                    if (response.data.status === 0) {
+                        commit(CHANGE_USER_INFO, {
+                            name,
+                            avatar
+                        });
+                        resolve(true);
+                    } else {
+                        resolve(false);
+                    }
+                }, err => {
+                    console.log(err);
+                    resolve(false);
+                });
+            });
+        },
+        [POST_COMMENT]({
+            commit
+        }, {
+            id,
+            comment,
+            routeName
+        }) {
+            let postComment;
+            if (routeName === 'CourseDetail') {
+                postComment = DataService.postCourseCommentPromise;
+            } else if (routeName === 'LectureDetail') {
+                postComment = DataService.postLectureCommentPromise;
+            }
+            return new Promise((resolve, reject) => {
+                postComment({
+                    id,
+                    comment
+                }).then(response => {
+                    console.log('in response 12');
+                    if (response.data.status === 0) {
+                        commit(REFRESH_DATA);
+                        resolve(true);
+                    } else {
+                        resolve(false);
+                    }
+                }, err => {
+                    console.log(err);
+                    resolve(false);
+                });
             });
         }
     },

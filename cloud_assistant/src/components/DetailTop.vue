@@ -2,26 +2,21 @@
  * @Author: double7
  * @Date: 2018-12-30 11:30:21
  * @Last Modified by: double7
- * @Last Modified time: 2018-12-30 12:19:19
+ * @Last Modified time: 2018-12-30 15:31:07
  */
 <template>
     <section class="main-card">
         <div class="top-container">
             <div
                 class="detail-cover"
-                v-lazy:background-image="'http://edu-image.nosdn.127.net/8282FBC079673EA3A28339617E2F69E5.jpg?imageView&thumbnail=510y288&quality=100&thumbnail=223x125&quality=100'"
+                v-lazy:background-image="courseTopData.cover"
             ></div>
             <div class="info" :style="{'width': clientWidth - 240 + 'px'}">
                 <div class="timeInfo">
-                    <p>1-13周 周三 第一大节</p>
-                    <p>周五 第三大节</p>
+                    <p v-for="time in courseTopData.time" :key="time">{{ time }}</p>
                 </div>
                 <div class="tags">
-                    <div class="detail-tag">材料</div>
-                    <div class="detail-tag">物理</div>
-                    <div class="detail-tag">结课</div>
-                    <div class="detail-tag">结课</div>
-                    <div class="detail-tag">结课</div>
+                    <div class="detail-tag" v-for="tag in courseTopData.tags" :key="tag">{{ tag }}</div>
                 </div>
             </div>
         </div>
@@ -98,6 +93,7 @@
 
 <script>
 export default {
+    props: ['courseTopData'],
     data() {
         return { clientWidth: document.body.clientWidth };
     }

@@ -2,7 +2,7 @@
  * @Author: double7
  * @Date: 2018-12-30 11:30:26
  * @Last Modified by: double7
- * @Last Modified time: 2018-12-30 12:02:37
+ * @Last Modified time: 2018-12-30 14:36:08
  */
 
 <template>
@@ -22,7 +22,6 @@ export default {
         return {};
     },
     methods: {},
-    created: function() {},
     components: {
         DetailContainer
     }

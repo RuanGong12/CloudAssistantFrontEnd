@@ -2,7 +2,7 @@
  * @Author: double7
  * @Date: 2018-12-28 19:02:29
  * @Last Modified by: double7
- * @Last Modified time: 2018-12-29 14:12:12
+ * @Last Modified time: 2018-12-30 15:30:14
  */
 
 // The Vue build version to load with the `import` command
@@ -22,7 +22,8 @@ Vue.use(Vant);
 Vue.use(VueLazyLoad, {
     error: '../../static/img/failed.png',
     loading: '../../static/img/loading-bubbles.svg',
-    attempt: 2
+    attempt: 2,
+    listenEvents: ['scroll', 'wheel', 'mousewheel', 'resize', 'animationend', 'transitionend', 'touchmove', 'touchstart']
 });
 
 Vue.config.productionTip = false;

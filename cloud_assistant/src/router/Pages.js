@@ -2,7 +2,7 @@
  * @Author: double7
  * @Date: 2018-12-28 19:02:29
  * @Last Modified by: double7
- * @Last Modified time: 2018-12-29 15:34:44
+ * @Last Modified time: 2018-12-30 14:18:40
  */
 
 const AppPage = {
@@ -22,11 +22,14 @@ const SearchPage = {
 };
 
 const CourseDetailPage = {
-    path: '/course',
+    path: '/course/',
     headerTitle: '课程详情',
     showSearchIcon: false,
     showBackIcon: true,
-    scrollLocation: 0
+    scrollLocation: 0,
+    setPath: (id) => {
+        return '/course/' + id;
+    }
 };
 
 export default {
