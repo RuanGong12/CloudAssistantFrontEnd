@@ -32,8 +32,25 @@ const CourseDetailPage = {
     }
 };
 
+const LoginPage = {
+    path: '/login',
+    headerTitle: '登录',
+    showSearchIcon: false,
+    showBackIcon: true,
+    scrollLocation: 0
+};
+
+const FavoritesPage = {
+    path: '/favorites',
+    headerTitle: '我的收藏',
+    showSearchIcon: false,
+    showBackIcon: true,
+    scrollLocation: 0
+};
 export default {
     AppPage,
     SearchPage,
-    CourseDetailPage
+    CourseDetailPage,
+    LoginPage,
+    FavoritesPage
 };

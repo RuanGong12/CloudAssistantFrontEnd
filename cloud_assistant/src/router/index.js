@@ -10,6 +10,8 @@ import Router from 'vue-router';
 import Index from '@/views/Index.vue';
 import Search from '@/views/Search.vue';
 import CourseDetail from '@/views/CourseDetail.vue';
+import Login from '@/views/Login.vue';
+import Favorites from '@/views/Favorites.vue';
 
 Vue.use(Router);
 
@@ -29,6 +31,16 @@ export default new Router({
             path: '/course/:id',
             name: 'CourseDetail',
             component: CourseDetail
+        },
+        {
+            path: '/login',
+            name: 'Login',
+            component: Login
+        },
+        {
+            path: '/favorites',
+            name: 'Favorites',
+            component: Favorites
         }
     ]
 });

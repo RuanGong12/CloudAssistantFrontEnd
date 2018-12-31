@@ -1,8 +1,8 @@
 /*
  * @Author: double7
  * @Date: 2018-12-28 19:02:29
- * @Last Modified by: double7
- * @Last Modified time: 2018-12-30 20:39:19
+ * @Last Modified by: JIEWU
+ * @Last Modified time: 2018-12-31 12:29:19
  */
 
 import Vue from 'vue';
@@ -75,7 +75,7 @@ const appStore = {
                 refreshCount: 0,
                 refreshFailed: false
             },
-            scrollHandler: () => {}
+            scrollHandler: () => { }
         };
     },
     mutations: {
@@ -86,14 +86,16 @@ const appStore = {
                     state.currentPage.scrollLocation = scrollLocation;
                 }
                 pageStack.push(state.currentPage);
-                state.currentPage = { ...page
+                state.currentPage = {
+                    ...page
                 };
-                state.scrollHandler = () => {};
+                state.scrollHandler = () => { };
             }
         },
         [BACK_PAGE](state) {
             if (pageStack.length > 0) {
-                state.currentPage = { ...pageStack.pop()
+                state.currentPage = {
+                    ...pageStack.pop()
                 };
             }
         },
@@ -141,6 +143,7 @@ const appStore = {
     },
     actions: {
         [LOAD_USER_INFO]({
+            state,
             commit
         }) {
             DataService.getUserInfo((response) => {
@@ -148,6 +151,9 @@ const appStore = {
             }, (err) => {
                 console.log(err);
                 // TODO
+            },
+            {
+                userId: state.userInfo.userId
             });
         },
         [POST_USER_INFO]({

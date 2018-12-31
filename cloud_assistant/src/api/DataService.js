@@ -1,8 +1,8 @@
 /*
  * @Author: double7
  * @Date: 2018-12-28 19:05:06
- * @Last Modified by: double7
- * @Last Modified time: 2018-12-30 22:12:58
+ * @Last Modified by: JIEWU
+ * @Last Modified time: 2018-12-31 12:25:26
  */
 
 import axios from 'axios';
@@ -43,7 +43,7 @@ let getSwipeData = (resolve, reject, useCache = true) => {
     );
 };
 
-let getUserInfo = (resolve, reject, useCache = true) => {
+let getUserInfo = (resolve, reject, { userId }, useCache = true) => {
     if (useCache) {
         if (dataCache.UserInfo) {
             setTimeout(() => {
