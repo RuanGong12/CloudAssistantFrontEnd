@@ -2,7 +2,7 @@
  * @Author: double7
  * @Date: 2018-12-28 19:05:06
  * @Last Modified by: double7
- * @Last Modified time: 2019-01-01 00:04:13
+ * @Last Modified time: 2019-01-01 00:37:04
  */
 
 import axios from 'axios';
@@ -129,7 +129,6 @@ let getCourseDetail = (resolve, reject, {
     }
     axios.get('/static/mock/CourseDetail.json').then(
         response => {
-            debugger;
             if (response.data.status !== 0) {
                 reject(response.data);
             } else {
