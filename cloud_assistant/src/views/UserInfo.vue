@@ -1,8 +1,8 @@
 /*
  * @Author: double7
  * @Date: 2018-12-28 19:02:29
- * @Last Modified by: double7
- * @Last Modified time: 2018-12-30 20:38:31
+ * @Last Modified by: JIEWU
+ * @Last Modified time: 2018-12-31 14:16:31
  */
 
 <template>
@@ -23,8 +23,22 @@
             </div>
         </div>
         <van-cell-group class="user-channel">
-            <van-cell title-class="cell-title" title="我的收藏" icon="like-o" is-link size="large"/>
-            <van-cell title-class="cell-title" title="切换账号" icon="exchange" is-link size="large"/>
+            <van-cell
+                title-class="cell-title"
+                title="我的收藏"
+                icon="like-o"
+                is-link
+                size="large"
+                @click="favoritesPage"
+            />
+            <van-cell
+                title-class="cell-title"
+                title="切换账号"
+                icon="exchange"
+                is-link
+                size="large"
+                @click="loginPage"
+            />
         </van-cell-group>
     </div>
 </template>
@@ -86,7 +100,7 @@
 }
 
 .user-id::before {
-    content: 'id:'
+    content: 'id:';
 }
 
 .icon-button-edit {
@@ -111,10 +125,12 @@
 <script>
 import {
     MODULES_NAME,
-    SHOW_USER_NAME_EDIT_DIALOG
+    SHOW_USER_NAME_EDIT_DIALOG,
+    GO_PAGE
 } from '@/store/mutation-types';
 import { LOAD_USER_INFO } from '@/store/action-types';
 import { mapState, mapMutations, mapActions } from 'vuex';
+import Pages from '@/router/Pages';
 // import DataService from '@/api/DataService';
 export default {
     data() {
@@ -131,6 +147,12 @@ export default {
         },
         openMsg() {
             this.$message({ message: 'info', customClass: 'message-box' });
+        },
+        loginPage() {
+            this.$store.commit(GO_PAGE, Pages.LoginPage);
+        },
+        favoritesPage() {
+            this.$store.commit(GO_PAGE, Pages.FavoritesPage);
         }
     },
     computed: {

@@ -21,7 +21,7 @@
             <van-button type="danger" round=true size="large" @click="LoginPage">登录</van-button>
         </div>
         <div class="b2">
-            <van-button type="dufault" round=ture size="large" @click=register>注册</van-button>
+            <van-button type="warning" round=ture size="large" @click=register>注册</van-button>
         </div>
     </div>
 </template>
@@ -65,18 +65,5 @@
 </style>
 
 <script>
-import { mapState } from 'vuex';
-export default {
-    computed: {
-        ...mapState({
-            refreshFlag: state => state.refreshInfo.refreshFlag,
-            refreshCount: state => state.refreshInfo.refreshCount
-        })
-    },
-    watch: {
-        refreshFlag: function(val) {
-            console.log(`login:${val}`);
-        }
-    }
-};
+
 </script>

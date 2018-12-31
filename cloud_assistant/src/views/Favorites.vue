@@ -1,6 +1,13 @@
 <template>
-    <div>
-        Favorites Page
+    <div class="top-menu">
+        <van-tabs v-model="active" animated>
+            <van-tab title="课程">
+                <div>课程列表</div>
+            </van-tab>
+            <van-tab title="讲座">
+                <div>讲座列表</div>
+            </van-tab>
+        </van-tabs>
     </div>
 </template>
 
@@ -8,18 +15,5 @@
 </style>
 
 <script>
-import { mapState } from 'vuex';
-export default {
-    computed: {
-        ...mapState({
-            refreshFlag: state => state.refreshInfo.refreshFlag,
-            refreshCount: state => state.refreshInfo.refreshCount
-        })
-    },
-    watch: {
-        refreshFlag: function(val) {
-            console.log(`favorites:${val}`);
-        }
-    }
-};
+export default {};
 </script>
