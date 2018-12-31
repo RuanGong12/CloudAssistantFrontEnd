@@ -21,7 +21,7 @@ Vue.use(Router);
 export default new Router({
     routes: [
         {
-            path: '/',
+            path: '/index',
             name: 'Index',
             component: Index
         },
@@ -41,7 +41,7 @@ export default new Router({
             component: LectureDetail
         },
         {
-            path: '/login',
+            path: '/',
             name: 'Login',
             component: Login
         },

@@ -1,8 +1,8 @@
 /*
  * @Author: double7
  * @Date: 2018-12-28 19:02:29
- * @Last Modified by: JIEWU
- * @Last Modified time: 2018-12-31 14:16:31
+ * @Last Modified by: double7
+ * @Last Modified time: 2018-12-31 19:50:00
  */
 
 <template>
@@ -145,11 +145,15 @@ export default {
         showDialog() {
             this[SHOW_USER_NAME_EDIT_DIALOG]();
         },
-        openMsg() {
-            this.$message({ message: 'info', customClass: 'message-box' });
-        },
         loginPage() {
-            this.$store.commit(GO_PAGE, Pages.LoginPage);
+            this.$dialog
+                .confirm({
+                    title: '登出',
+                    message: '确定要退出当前账号吗'
+                })
+                .then(() => {
+                    this.$store.commit(GO_PAGE, Pages.LoginPage);
+                });
         },
         favoritesPage() {
             this.$store.commit(GO_PAGE, Pages.FavoritesPage);

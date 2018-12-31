@@ -1,12 +1,13 @@
 /*
  * @Author: double7
  * @Date: 2018-12-28 19:02:29
- * @Last Modified by: JIEWU
- * @Last Modified time: 2018-12-31 12:16:07
+ * @Last Modified by: double7
+ * @Last Modified time: 2018-12-31 19:18:11
  */
 
 <template>
     <div>
+        {{editedName}}
         <div class="user-page-dialog">
             <van-dialog
                 v-model="userNameEditDialog.showFlag"
@@ -55,6 +56,42 @@
                 </div>
             </van-dialog>
         </div>
+        <div>
+            <van-dialog
+                v-model="signupDialog.showFlag"
+                :before-close="handlesignup"
+                show-cancel-button
+                :showConfirmButton="showConfirmButton"
+            >
+                <van-panel title="注册" icon="add-o">
+                    <van-field
+                        v-model="editedName"
+                        label="昵称"
+                        placeholder="输入昵称"
+                        :error-message="nameErrorMessage"
+                    ></van-field>
+                    <van-field
+                        v-model="password"
+                        type="password"
+                        label="密码"
+                        placeholder="请输入密码"
+                        :error-message="passwordErrorMessage"
+                    ></van-field>
+                    <van-field
+                        v-model="confirmPassword"
+                        type="password"
+                        label="确认密码"
+                        placeholder
+                        :error-message="confirmPasswordErrorMessage"
+                    ></van-field>
+                    <van-collapse v-model="activeNames">
+                        <van-collapse-item title="头像" name="1">
+                            <van-field v-model="avatar" label="URL(可选)" placeholder="你可以输入头像的url"></van-field>
+                        </van-collapse-item>
+                    </van-collapse>
+                </van-panel>
+            </van-dialog>
+        </div>
     </div>
 </template>
 
@@ -76,19 +113,28 @@
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex';
 import { REFRESH_DATA } from '@/store/mutation-types';
-import { POST_USER_INFO, POST_COMMENT } from '@/store/action-types';
+import {
+    PUT_USER_INFO,
+    POST_COMMENT,
+    POST_RATE,
+    POST_USER_INFO
+} from '@/store/action-types';
 export default {
     data() {
         return {
             editedName: '',
             showConfirmButton: true,
             comment: '',
-            rate: 0
+            rate: 0,
+            password: '',
+            avatar: '',
+            confirmPassword: '',
+            activeNames: []
         };
     },
     methods: {
         ...mapMutations([REFRESH_DATA]),
-        ...mapActions([POST_USER_INFO, POST_COMMENT]),
+        ...mapActions([PUT_USER_INFO, POST_COMMENT, POST_RATE, POST_USER_INFO]),
         async handleNameEdit(action, done) {
             if (action === 'cancel') {
                 done();
@@ -97,7 +143,7 @@ export default {
                     done(false);
                 } else {
                     try {
-                        let response = await this[POST_USER_INFO]({
+                        let response = await this[PUT_USER_INFO]({
                             name: this.editedName
                         });
                         if (response) {
@@ -133,13 +179,12 @@ export default {
                 if (this.commentErrorMessage !== '') {
                     done(false);
                 } else {
-                    let param = {
-                        comment: this.comment,
-                        routeName: this.$route.name,
-                        id: this.$route.params.id
-                    };
                     try {
-                        let response = await this[POST_COMMENT](param);
+                        let response = await this[POST_COMMENT]({
+                            id: this.$route.params.id,
+                            comment: this.comment,
+                            routeName: this.$route.name
+                        });
                         if (response) {
                             done();
                             this[REFRESH_DATA]();
@@ -170,8 +215,9 @@ export default {
                     done(false);
                 } else {
                     try {
-                        let response = await this[POST_USER_INFO]({
-                            name: this.editedName
+                        let response = await this[POST_RATE]({
+                            id: this.$route.params.id,
+                            rate: this.rate
                         });
                         if (response) {
                             this[REFRESH_DATA]();
@@ -195,6 +241,44 @@ export default {
                 }
             }
         },
+        async handlesignup(action, done) {
+            if (action === 'cancel') {
+                done();
+            } else {
+                if (this.passwordErrorMessage !== '') {
+                    done(false);
+                } else {
+                    try {
+                        let response = await this[POST_USER_INFO]({
+                            name: this.editedName,
+                            avatar: this.avatar,
+                            password: this.password
+                        });
+                        if (response) {
+                            done();
+                            this.$dialog.alert({
+                                title: '注册成功',
+                                message: '账号：' + response.userId
+                            });
+                        } else {
+                            this.$toast({
+                                duration: 1000,
+                                message: '注册失败',
+                                type: 'fail'
+                            });
+                            done(false);
+                        }
+                    } catch (err) {
+                        this.$toast({
+                            duration: 1000,
+                            message: '注册失败',
+                            type: 'fail'
+                        });
+                        done(false);
+                    }
+                }
+            }
+        },
         changeConfirmButton(flag) {
             this.showConfirmButton = flag;
         }
@@ -203,7 +287,12 @@ export default {
         ...mapState({
             userNameEditDialog: state => state.dialogModule.userNameEditDialog,
             addCommentDialog: state => state.dialogModule.addCommentDialog,
-            rateDialog: state => state.dialogModule.rateDialog
+            rateDialog: state => state.dialogModule.rateDialog,
+            signupDialog: state => state.dialogModule.signupDialog,
+            userNameEditDialogShowFlag: state =>
+                state.dialogModule.userNameEditDialog.showFlag,
+            signupDialogShowFlag: state =>
+                state.dialogModule.signupDialog.showFlag
         }),
         nameErrorMessage() {
             let val = this.editedName;
@@ -236,10 +325,38 @@ export default {
                 this.changeConfirmButton(true);
                 return '';
             }
+        },
+        passwordErrorMessage() {
+            if (this.password.length < 8) {
+                this.changeConfirmButton(false);
+                return '密码至少为8位';
+            } else if (this.password.length > 25) {
+                this.changeConfirmButton(false);
+                return '密码不超过25位';
+            }
+            this.changeConfirmButton(true);
+            return '';
+        },
+        confirmPasswordErrorMessage() {
+            if (this.password !== this.confirmPassword) {
+                this.changeConfirmButton(false);
+                return '两次输入的密码不一致';
+            }
+            this.changeConfirmButton(true);
+            return '';
         }
     },
-    created: function () {
-        this.editedName = this.$store.state.userInfo.userName;
+    watch: {
+        signupDialogShowFlag(val) {
+            if (val) {
+                this.editedName = '';
+            }
+        },
+        userNameEditDialogShowFlag(val) {
+            if (val) {
+                this.editedName = this.$store.state.userInfo.userName;
+            }
+        }
     }
 };
 </script>

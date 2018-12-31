@@ -360,6 +360,18 @@
                         singer: 'double7',
                         label: '古典'
                     }];
+                    setTimeout(()=>{
+                        recom_song_list = JSON.parse(xmlhttp.responseText)
+                            console.log(recom_song_list)
+
+                            recom_song_arr = []
+                            for (i in recom_song_list) {
+                                recom_song_arr[i] = recom_song_list[i]
+                                //recom_song_arr.push(recom_song_list[i])
+                            }
+                            console.log(recom_song_arr)
+                            that.recom_songs = recom_song_arr
+                    },1000)
                     // ajax({
                     //     url: "/fm",
                     //     data: rq,

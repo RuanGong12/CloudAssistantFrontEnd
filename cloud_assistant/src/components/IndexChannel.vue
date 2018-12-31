@@ -3,16 +3,16 @@
         <ul>
             <li class="channel-unit">
                 <div>
-                    <div>
-                        <van-icon name="apps-o" size="40px" @click="coursehomePage"/>
+                    <div @click="coursehomePage">
+                        <van-icon name="apps-o" size="40px"/>
                     </div>
                     <p>课程</p>
                 </div>
             </li>
             <li class="channel-unit">
                 <div>
-                    <div>
-                        <van-icon name="user-o" size="40px" @click="lecturehomePage"/>
+                    <div @click="lecturehomePage">
+                        <van-icon name="user-o" size="40px"/>
                     </div>
                     <p>讲座</p>
                 </div>
@@ -40,7 +40,7 @@
     float: left;
     width: 50%;
     text-align: center;
-    padding: 10px 0;
+    padding: 10px 30px;
     box-sizing: border-box;
 }
 

@@ -1,8 +1,8 @@
 /*
  * @Author: double7
  * @Date: 2018-12-30 11:30:26
- * @Last Modified by: JIEWU
- * @Last Modified time: 2018-12-31 12:43:39
+ * @Last Modified by: double7
+ * @Last Modified time: 2018-12-31 17:36:07
  */
 
 <template>
@@ -40,7 +40,7 @@
     font-size: 28px;
     right: 24px;
     top: -38px;
-    z-index: 2001;
+    z-index: 1999;
 }
 .main-card {
     background: #fff;

@@ -2,7 +2,7 @@
  * @Author: double7
  * @Date: 2018-12-28 19:05:06
  * @Last Modified by: double7
- * @Last Modified time: 2018-12-31 00:10:35
+ * @Last Modified time: 2018-12-31 19:25:56
  */
 
 import axios from 'axios';
@@ -232,11 +232,12 @@ let postLectureCommentPromise = ({
 };
 
 let postCourseRate = ({
+    userId,
     id,
     rate
 }) => {
     // TODO
-    // return axios.post('', {id, rate});
+    // return axios.post('', {userId, id, rate});
     return axios.get('/static/mock/SucceedRes.json');
 };
 
@@ -286,10 +287,11 @@ let putLike = (resolve, reject, {
 
 let postUserInfoPromise = ({
     name,
-    avatar
+    avatar,
+    password
 }) => {
     return axios.get('/static/mock/SignUpSucceed.json');
-    // return axios.post('', {name, avatar});
+    // return axios.post('', {name, avatar, password});
 };
 
 let postLogin = (resolve, reject, {

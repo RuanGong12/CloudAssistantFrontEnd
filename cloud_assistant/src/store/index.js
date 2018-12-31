@@ -1,8 +1,8 @@
 /*
  * @Author: double7
  * @Date: 2018-12-28 19:02:29
- * @Last Modified by: JIEWU
- * @Last Modified time: 2018-12-31 12:41:17
+ * @Last Modified by: double7
+ * @Last Modified time: 2018-12-31 19:46:35
  */
 
 import Vue from 'vue';
@@ -13,6 +13,7 @@ import {
     SHOW_USER_NAME_EDIT_DIALOG,
     SHOW_ADD_COMMENT_DIALOG,
     SHOW_RATE_DIALOG,
+    SHOW_SIGNUP_DIALOG,
     REFRESH_DATA,
     REFRESH_ERROR,
     REFRESH_INIT,
@@ -22,9 +23,11 @@ import {
 } from './mutation-types';
 import {
     LOAD_USER_INFO,
-    POST_USER_INFO,
+    PUT_USER_INFO,
     POST_COMMENT,
-    POST_RATE
+    POST_RATE,
+    POST_USER_INFO,
+    POST_LOGIN
 } from './action-types';
 import Pages from '@/router/Pages';
 import DataService from '@/api/DataService';
@@ -43,6 +46,9 @@ const dialogModule = {
             },
             rateDialog: {
                 showFlag: false
+            },
+            signupDialog: {
+                showFlag: false
             }
         };
     },
@@ -55,6 +61,9 @@ const dialogModule = {
         },
         [SHOW_RATE_DIALOG](state) {
             state.rateDialog.showFlag = true;
+        },
+        [SHOW_SIGNUP_DIALOG](state) {
+            state.signupDialog.showFlag = true;
         }
     }
 };
@@ -64,7 +73,7 @@ let pageStack = [];
 const appStore = {
     state() {
         return {
-            currentPage: Pages.AppPage,
+            currentPage: Pages.LoginPage,
             userInfo: {
                 userId: '',
                 userName: 'double7',
@@ -81,6 +90,11 @@ const appStore = {
     mutations: {
         [GO_PAGE](state, page) {
             if (state.currentPage.path !== page.path) {
+                if (page.path === '/') {
+                    pageStack = [];
+                    state.currentPage = { ...Pages.LoginPage
+                    };
+                }
                 let scrollLocation = state.scrollHandler();
                 if (scrollLocation) {
                     state.currentPage.scrollLocation = scrollLocation;
@@ -149,12 +163,11 @@ const appStore = {
             }, (err) => {
                 console.log(err);
                 // TODO
-            },
-            {
+            }, {
                 userId: state.userInfo.userId
             });
         },
-        [POST_USER_INFO]({
+        [PUT_USER_INFO]({
             state,
             commit
         }, {
@@ -215,12 +228,15 @@ const appStore = {
                 });
             });
         },
-        [POST_RATE](Null, {
+        [POST_RATE]({
+            state
+        }, {
             id,
             rate
         }) {
             return new Promise((resolve, reject) => {
-                DataService.setUserInfoPromise({
+                DataService.postCourseRate({
+                    userId: state.userInfo.userId,
                     id,
                     rate
                 }).then(response => {
@@ -233,6 +249,48 @@ const appStore = {
                     console.log(err);
                     resolve(false);
                 });
+            });
+        },
+        [POST_USER_INFO](Null, {
+            name,
+            avatar,
+            password
+        }) {
+            return new Promise((resolve, reject) => {
+                DataService.postUserInfoPromise({
+                    name,
+                    avatar,
+                    password
+                }).then(response => {
+                    if (response.data.status === 0) {
+                        resolve(response.data.result);
+                    } else {
+                        resolve(null);
+                    }
+                }, err => {
+                    console.log(err);
+                    resolve(null);
+                });
+            });
+        },
+        [POST_LOGIN]({
+            commit
+        }, {
+            userId,
+            password,
+            succeedHandler,
+            failedHandler
+        }) {
+            DataService.postLogin((response) => {
+                succeedHandler();
+                commit(GO_PAGE, Pages.AppPage);
+            }, (err) => {
+                failedHandler();
+                console.log(err);
+                // TODO
+            }, {
+                userId,
+                password
             });
         }
     },
