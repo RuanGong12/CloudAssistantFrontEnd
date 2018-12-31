@@ -1,0 +1,41 @@
+{
+    "status": 0,
+    "msg": "",
+    "result": [{
+        "id": "2345",
+        "lectureName": "年轻时来到一座大城 ——绿妖《世界尽头是北京》西西弗书店签售会",
+        "cover": "https://img3.doubanio.com/pview/event_poster/median/public/9129a0b24d3371d.jpg",
+        "school": "新民说iHuman",
+        "teachers": ["新民说iHuman"],
+        "timeInfo": "01月06日 周日 14:30-17:00"
+    },{
+        "id": "2342",
+        "lectureName": "我们分到了土地：漫谈原创文学",
+        "cover": "https://img1.doubanio.com/pview/event_poster/median/public/592aded7363bb17.jpg",
+        "school": "藏书阁-我们在建共享图书馆",
+        "teachers": ["朱岳"],
+        "timeInfo": "01月06日 周日 13:30-17:00"
+    },{
+        "id": "0232",
+        "lectureName": "《来自民间的叛逆》 嬉皮流水 嬉皮士文化的精神内核",
+        "cover": "https://img3.doubanio.com/pview/event_poster/median/public/e383fe73ea7f97d.jpg",
+        "school": "读库",
+        "teachers": ["马世芳", "袁越 "],
+        "timeInfo": "01月05日 周六 14:00-16:00"
+    },{
+        "id": "1342",
+        "lectureName": "2019年创业达人秀-赢在中国总冠军李书文大型跨年演讲",
+        "cover": "https://img3.doubanio.com/pview/event_poster/median/public/1961d40d2705a73.jpg",
+        "school": "不可不戒",
+        "teachers": ["李书文"],
+        "timeInfo": "01月02日 周三 15:00-20:00"
+    },
+    {
+        "id": "1442",
+        "lectureName": "产品总监带你从0-1打造一款产品",
+        "cover": "https://img1.doubanio.com/pview/event_poster/median/public/189c06f8e264957.jpg",
+        "school": "帝江",
+        "teachers": ["帝江"],
+        "timeInfo": "12月15日 周六 15:00-17:00 "
+    }]
+}

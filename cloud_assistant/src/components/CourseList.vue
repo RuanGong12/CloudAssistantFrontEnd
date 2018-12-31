@@ -2,7 +2,7 @@
  * @Author: double7
  * @Date: 2018-12-29 11:40:04
  * @Last Modified by: double7
- * @Last Modified time: 2018-12-31 15:59:54
+ * @Last Modified time: 2018-12-31 23:44:46
  */
 
 <template>
@@ -12,7 +12,6 @@
             :loading="loading"
             :finished="finished"
             :finished-text="finishedText"
-            @load="onLoad"
         >
             <div
                 class="course-card"
@@ -21,15 +20,19 @@
                 @click="examineDetail(item.id)"
             >
                 <div class="course-card__body float-clear-block" style="padding: 0px;">
-                    <div class="card-left">
-                        <div class="card-img" v-lazy:background-image="item.cover"></div>
+                    <div class="course-card-left">
+                        <div class="course-card-img" v-lazy:background-image="item.cover"></div>
                     </div>
-                    <div class="card-right" style="padding: 6px;">
+                    <div class="course-card-right" style="padding: 6px;">
                         <span class="van-ellipsis">{{ item.courseName }}</span>
                         <div class="card-description clearfix">
                             <p class="van-ellipsis">{{ item.school }}</p>
                             <p class="van-ellipsis">
-                                <span v-for="teacher in item.teachers" :key="teacher">{{ teacher }}</span>
+                                <span
+                                    class="teacher-unit"
+                                    v-for="teacher in item.teachers"
+                                    :key="teacher"
+                                >{{ teacher }}</span>
                             </p>
                             <p class="van-ellipsis">{{ item.timeInfo }}</p>
                         </div>
@@ -41,6 +44,10 @@
 </template>
 
 <style>
+.teacher-unit {
+    margin-right: 7px;
+}
+
 .course-card {
     margin: 16px auto;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
@@ -69,16 +76,16 @@
     box-sizing: border-box;
 }
 
-.card-img {
+.course-card-img {
     height: 100px;
     background-position: center;
     background-size: cover;
 }
-.card-left {
+.course-card-left {
     width: 50%;
 }
-.card-right {
-    font-size: 1.1rem;
+.course-card-right {
+    font-size: 1rem;
     color: #606266;
     width: 50%;
 }
@@ -106,9 +113,6 @@ export default {
                 courseId
             );
             this[GO_PAGE](Pages.CourseDetailPage);
-        },
-        onLoad() {
-            this.$emit('onLoad');
         },
         ...mapMutations([GO_PAGE])
     }

@@ -2,7 +2,7 @@
  * @Author: double7
  * @Date: 2018-12-28 19:02:29
  * @Last Modified by: double7
- * @Last Modified time: 2018-12-31 19:42:10
+ * @Last Modified time: 2018-12-31 22:01:57
  */
 
 const AppPage = {
@@ -29,6 +29,17 @@ const CourseDetailPage = {
     scrollLocation: 0,
     setPath: (id) => {
         return '/course/' + id;
+    }
+};
+
+const LectureDetailPage = {
+    path: '/course/',
+    headerTitle: '讲座详情',
+    showSearchIcon: false,
+    showBackIcon: true,
+    scrollLocation: 0,
+    setPath: (id) => {
+        return '/lecture/' + id;
     }
 };
 
@@ -67,6 +78,7 @@ export default {
     AppPage,
     SearchPage,
     CourseDetailPage,
+    LectureDetailPage,
     LoginPage,
     FavoritesPage,
     CourseHomePage,

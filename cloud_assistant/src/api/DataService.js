@@ -2,7 +2,7 @@
  * @Author: double7
  * @Date: 2018-12-28 19:05:06
  * @Last Modified by: double7
- * @Last Modified time: 2018-12-31 19:25:56
+ * @Last Modified time: 2018-12-31 22:33:22
  */
 
 import axios from 'axios';
@@ -17,7 +17,9 @@ const errRes = {
 let dataCache = {
     CourseDetail: {},
     LectureDetail: {},
-    Comments: {}
+    Comments: {},
+    LectureList: {},
+    CourseList: {}
 };
 
 let getSwipeData = (resolve, reject, useCache = true) => {
@@ -43,7 +45,9 @@ let getSwipeData = (resolve, reject, useCache = true) => {
     );
 };
 
-let getUserInfo = (resolve, reject, { userId }, useCache = true) => {
+let getUserInfo = (resolve, reject, {
+    userId
+}, useCache = true) => {
     if (useCache) {
         if (dataCache.UserInfo) {
             setTimeout(() => {
@@ -315,6 +319,33 @@ let postLogin = (resolve, reject, {
     );
 };
 
+let getClassifiedLectureList = (resolve, reject, {
+    date
+}, useCache = true) => {
+    if (useCache) {
+        if (dataCache.LectureList[date]) {
+            setTimeout(() => {
+                resolve(dataCache.LectureList[date]);
+            }, 50);
+            return;
+        }
+    }
+    axios.get('/static/mock/ClassifiedLectureList.json').then(
+        response => {
+            if (response.data.status !== 0) {
+                reject(response.data);
+            } else {
+                dataCache.LectureList[date] = response.data;
+                resolve(response.data);
+            }
+        },
+        err => {
+            console.log(err);
+            reject(errRes);
+        }
+    );
+};
+
 export default {
     getSwipeData,
     getUserInfo,
@@ -331,5 +362,6 @@ export default {
     putCourseLike,
     putLectureLike,
     postUserInfoPromise,
-    postLogin
+    postLogin,
+    getClassifiedLectureList
 };

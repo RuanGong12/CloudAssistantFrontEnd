@@ -2,12 +2,11 @@
  * @Author: double7
  * @Date: 2018-12-28 19:02:29
  * @Last Modified by: double7
- * @Last Modified time: 2018-12-31 19:18:11
+ * @Last Modified time: 2018-12-31 20:23:41
  */
 
 <template>
     <div>
-        {{editedName}}
         <div class="user-page-dialog">
             <van-dialog
                 v-model="userNameEditDialog.showFlag"
@@ -67,7 +66,7 @@
                     <van-field
                         v-model="editedName"
                         label="昵称"
-                        placeholder="输入昵称"
+                        placeholder="请输入昵称"
                         :error-message="nameErrorMessage"
                     ></van-field>
                     <van-field
