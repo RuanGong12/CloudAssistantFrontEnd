@@ -5,14 +5,10 @@
 </template>
 
 <style>
-.footer{
-    background: #fff;
-    position: relative;
+.footer {
+    background: #ffffff;
+    padding: 10px;
     text-align: center;
-
+    color: #C0C4CC;
 }
 </style>
-
-<script>
-export default {};
-</script>

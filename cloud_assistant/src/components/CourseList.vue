@@ -1,15 +1,15 @@
 /*
  * @Author: double7
  * @Date: 2018-12-29 11:40:04
- * @Last Modified by: JIEWU
- * @Last Modified time: 2018-12-31 12:12:14
+ * @Last Modified by: double7
+ * @Last Modified time: 2018-12-31 15:59:54
  */
 
 <template>
     <div>
         <van-list
             class="course-list"
-            v-model="showflag"
+            :loading="loading"
             :finished="finished"
             :finished-text="finishedText"
             @load="onLoad"
@@ -111,11 +111,6 @@ export default {
             this.$emit('onLoad');
         },
         ...mapMutations([GO_PAGE])
-    },
-    computed: {
-        showflag() {
-            return this.loading;
-        }
     }
 };
 </script>

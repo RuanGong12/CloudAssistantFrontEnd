@@ -1,17 +1,17 @@
 <template>
     <div>
         <div>
-            <van-search  placeholder="请输入课程或教师名" show-action @search="onSearch">
+            <van-search placeholder="请输入课程或教师名" show-action @search="onSearch">
                 <div slot="action" @click="onSearch">搜索</div>
             </van-search>
         </div>
         <div>
-            <course-list>
+            <course-list
                 :listItems="listItems"
                 :loading="loading"
                 :finished="finished"
                 :finishedText="finishedText"
-            </course-list>
+            ></course-list>
         </div>
     </div>
 </template>
@@ -34,7 +34,9 @@ export default {
         };
     },
     methods: {
-        onSearch() {}
+        onSearch() {
+            console.log('sad');
+        }
     },
     components: {
         CourseList
