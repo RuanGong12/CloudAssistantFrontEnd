@@ -1,8 +1,8 @@
 /*
  * @Author: double7
  * @Date: 2018-12-28 19:05:06
- * @Last Modified by: JIEWU
- * @Last Modified time: 2018-12-31 12:25:26
+ * @Last Modified by: double7
+ * @Last Modified time: 2018-12-31 00:10:35
  */
 
 import axios from 'axios';
@@ -113,8 +113,10 @@ let getRecommendCourses = (resolve, reject, useCache = true) => {
 };
 
 let getCourseDetail = (resolve, reject, {
+    userId,
     id
 }, useCache = true) => {
+    // TODO ?userId=123456
     if (useCache) {
         if (dataCache.CourseDetail[id]) {
             resolve(dataCache.CourseDetail[id]);
@@ -210,20 +212,22 @@ let getComment = (resolve,
 };
 
 let postCourseCommentPromise = ({
+    userId,
     id,
     comment
 }) => {
     // TODO
-    // return axios.post('', {id, comment});
+    // return axios.post('', {userId, id, comment});
     return axios.get('/static/mock/SucceedRes.json');
 };
 
 let postLectureCommentPromise = ({
+    userId,
     id,
     comment
 }) => {
     // TODO
-    // return axios.post('', {id, comment});
+    // return axios.post('', {userId,id, comment});
     return axios.get('/static/mock/SucceedRes.json');
 };
 
@@ -279,6 +283,36 @@ let putLike = (resolve, reject, {
         }
     );
 };
+
+let postUserInfoPromise = ({
+    name,
+    avatar
+}) => {
+    return axios.get('/static/mock/SignUpSucceed.json');
+    // return axios.post('', {name, avatar});
+};
+
+let postLogin = (resolve, reject, {
+    userId,
+    password
+}) => {
+    // TODO
+    // axios.put(url, {userId, password}).then();
+    axios.get('/static/mock/SucceedRes.json').then(
+        response => {
+            if (response.data.status !== 0) {
+                reject(response.data);
+            } else {
+                resolve(response.data);
+            }
+        },
+        err => {
+            console.log(err);
+            reject(errRes);
+        }
+    );
+};
+
 export default {
     getSwipeData,
     getUserInfo,
@@ -293,5 +327,7 @@ export default {
     postLectureCommentPromise,
     postCourseRate,
     putCourseLike,
-    putLectureLike
+    putLectureLike,
+    postUserInfoPromise,
+    postLogin
 };

@@ -2,7 +2,7 @@
  * @Author: double7
  * @Date: 2018-12-28 19:02:29
  * @Last Modified by: JIEWU
- * @Last Modified time: 2018-12-31 12:29:19
+ * @Last Modified time: 2018-12-31 12:41:17
  */
 
 import Vue from 'vue';
@@ -75,7 +75,7 @@ const appStore = {
                 refreshCount: 0,
                 refreshFailed: false
             },
-            scrollHandler: () => { }
+            scrollHandler: () => {}
         };
     },
     mutations: {
@@ -86,16 +86,14 @@ const appStore = {
                     state.currentPage.scrollLocation = scrollLocation;
                 }
                 pageStack.push(state.currentPage);
-                state.currentPage = {
-                    ...page
+                state.currentPage = { ...page
                 };
-                state.scrollHandler = () => { };
+                state.scrollHandler = () => {};
             }
         },
         [BACK_PAGE](state) {
             if (pageStack.length > 0) {
-                state.currentPage = {
-                    ...pageStack.pop()
+                state.currentPage = { ...pageStack.pop()
                 };
             }
         },
@@ -185,6 +183,7 @@ const appStore = {
             });
         },
         [POST_COMMENT]({
+            state,
             commit
         }, {
             id,
@@ -199,6 +198,7 @@ const appStore = {
             }
             return new Promise((resolve, reject) => {
                 postComment({
+                    userId: state.userInfo.userId,
                     id,
                     comment
                 }).then(response => {

@@ -1,8 +1,8 @@
 /*
  * @Author: double7
  * @Date: 2018-12-30 11:30:21
- * @Last Modified by: double7
- * @Last Modified time: 2018-12-30 21:27:39
+ * @Last Modified by: JIEWU
+ * @Last Modified time: 2018-12-31 12:45:39
  */
 <template>
     <section class="main-card">
@@ -13,7 +13,7 @@
             ></div>
             <div class="info" :style="{'width': clientWidth - 240 + 'px'}">
                 <div class="timeInfo">
-                    <p v-for="time in detailTopData.time" :key="time">{{ time }}</p>
+                    <p v-for="timeLocation in detailTopData.timeLocation" :key="timeLocation">{{ timeLocation }}</p>
                 </div>
                 <div class="tags">
                     <div class="detail-tag" v-for="tag in detailTopData.tags" :key="tag">{{ tag }}</div>
@@ -24,6 +24,7 @@
 </template>
 
 <style>
+
 .detail-cover {
     position: relative;
     box-shadow: 0 6px 5px -3px #aaa;
@@ -75,6 +76,11 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+.detail-tag:nth-child(2n) {
+    color: #f56c6c;
+    border: 1px solid #f56c6c;
 }
 
 .timeInfo {

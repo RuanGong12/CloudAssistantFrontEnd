@@ -1,8 +1,8 @@
 /*
  * @Author: double7
  * @Date: 2018-12-30 11:30:26
- * @Last Modified by: double7
- * @Last Modified time: 2018-12-30 22:18:46
+ * @Last Modified by: JIEWU
+ * @Last Modified time: 2018-12-31 12:43:39
  */
 
 <template>
@@ -116,14 +116,14 @@ export default {
                         school,
                         cover,
                         teachers,
-                        time,
+                        timeLocation,
                         tags,
                         rate,
                         hasRated,
                         isLike,
                         description
                     } = response.result;
-                    this.detailTopData = { cover, time, tags };
+                    this.detailTopData = { cover, timeLocation, tags };
                     this.detailInfoData = {
                         title,
                         school,
@@ -140,7 +140,7 @@ export default {
                     // TODO
                     this[CHANGE_REFRESH_COUNT]({ isAdd: false });
                 },
-                { id: this.$route.params.id },
+                { id: this.$route.params.id, userId: this.userId },
                 useCache
             );
         },

@@ -1,8 +1,8 @@
 /*
  * @Author: double7
  * @Date: 2018-12-30 11:38:12
- * @Last Modified by: double7
- * @Last Modified time: 2018-12-30 21:25:59
+ * @Last Modified by: JIEWU
+ * @Last Modified time: 2018-12-31 12:45:30
  */
 
 <template>
@@ -21,13 +21,13 @@
                     :key="teacher"
                 >{{ teacher }}</span>
             </div>
-            <div class="van-hairline--bottom">
+            <div class="van-hairline--bottom" v-if="isCourse">
                 <div class="rate-container float-clear-block" @click="addRate">
                     <div>评分</div>
                     <van-rate class="detail-rate" :size="25" v-model="detailInfoData.rate" readonly></van-rate>
                 </div>
             </div>
-            <div class="detail-description">{{ detailInfoData.description }}</div>
+            <div class="detail-description"><p v-for="text in detailInfoData.description" :key="text">{{ text }}</p></div>
         </div>
     </section>
 </template>
@@ -93,7 +93,7 @@
 .detail-description {
     margin-top: 10px;
     color: #606266;
-    font-size: 1rem;
+    font-size: 0.9rem;
     text-indent: 2rem;
     line-height: 1.5rem;
 }
@@ -106,7 +106,8 @@ export default {
     props: ['detailInfoData'],
     data() {
         return {
-            rateValue: 0
+            rateValue: 0,
+            isCourse: true
         };
     },
     methods: {
@@ -118,6 +119,9 @@ export default {
                 this[SHOW_RATE_DIALOG]();
             }
         }
+    },
+    mounted: function() {
+        this.isCourse = this.$route.name === 'CourseDetail';
     }
 };
 </script>
