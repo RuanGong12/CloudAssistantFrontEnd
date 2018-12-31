@@ -57,9 +57,8 @@ export default {
         };
     },
     computed: {
-        columns(){
-            const colum = this.$t('cloumn3');
-            return
+        columns() {
+            return {};
         }
     },
     methods: {}
