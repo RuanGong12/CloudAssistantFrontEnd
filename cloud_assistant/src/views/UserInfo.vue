@@ -2,7 +2,7 @@
  * @Author: double7
  * @Date: 2018-12-28 19:02:29
  * @Last Modified by: double7
- * @Last Modified time: 2018-12-31 19:50:00
+ * @Last Modified time: 2018-12-31 23:53:58
  */
 
 <template>
@@ -153,7 +153,8 @@ export default {
                 })
                 .then(() => {
                     this.$store.commit(GO_PAGE, Pages.LoginPage);
-                });
+                })
+                .catch(() => {});
         },
         favoritesPage() {
             this.$store.commit(GO_PAGE, Pages.FavoritesPage);
