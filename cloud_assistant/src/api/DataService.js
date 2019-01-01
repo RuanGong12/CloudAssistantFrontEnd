@@ -2,12 +2,14 @@
  * @Author: double7
  * @Date: 2018-12-28 19:05:06
  * @Last Modified by: double7
- * @Last Modified time: 2019-01-01 00:37:04
+ * @Last Modified time: 2019-01-01 21:51:40
  */
 
 import axios from 'axios';
 
 // const serverHostApi = '/static';
+
+const dataServerIp = 'http://double7.cn';
 
 const errRes = {
     status: 500,
@@ -294,7 +296,11 @@ let postUserInfoPromise = ({
     avatar,
     password
 }) => {
-    return axios.get('/static/mock/SignUpSucceed.json');
+    return axios.post(dataServerIp + ':5000/api/SignUp ', {
+        name,
+        avator: avatar,
+        password
+    });
     // return axios.post('', {name, avatar, password});
 };
 
@@ -303,8 +309,10 @@ let postLogin = (resolve, reject, {
     password
 }) => {
     // TODO
-    // axios.put(url, {userId, password}).then();
-    axios.get('/static/mock/SucceedRes.json').then(
+    axios.post(dataServerIp + ':5000/api/Login', {
+        userId,
+        password
+    }).then(
         response => {
             if (response.data.status !== 0) {
                 reject(response.data);
