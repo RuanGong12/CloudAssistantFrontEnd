@@ -2,7 +2,7 @@
  * @Author: double7
  * @Date: 2018-12-28 19:02:29
  * @Last Modified by: double7
- * @Last Modified time: 2018-12-31 20:23:41
+ * @Last Modified time: 2019-01-01 00:42:55
  */
 
 <template>
@@ -210,26 +210,15 @@ export default {
             if (action === 'cancel') {
                 done();
             } else {
-                if (this.nameErrorMessage !== '') {
-                    done(false);
-                } else {
-                    try {
-                        let response = await this[POST_RATE]({
-                            id: this.$route.params.id,
-                            rate: this.rate
-                        });
-                        if (response) {
-                            this[REFRESH_DATA]();
-                            done();
-                        } else {
-                            this.$toast({
-                                duration: 1000,
-                                message: '评分失败',
-                                type: 'fail'
-                            });
-                            done(false);
-                        }
-                    } catch (err) {
+                try {
+                    let response = await this[POST_RATE]({
+                        id: this.$route.params.id,
+                        rate: this.rate
+                    });
+                    if (response) {
+                        this[REFRESH_DATA]();
+                        done();
+                    } else {
                         this.$toast({
                             duration: 1000,
                             message: '评分失败',
@@ -237,6 +226,13 @@ export default {
                         });
                         done(false);
                     }
+                } catch (err) {
+                    this.$toast({
+                        duration: 1000,
+                        message: '评分失败',
+                        type: 'fail'
+                    });
+                    done(false);
                 }
             }
         },

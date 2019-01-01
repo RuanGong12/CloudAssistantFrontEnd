@@ -2,7 +2,7 @@
  * @Author: double7
  * @Date: 2018-12-28 19:02:29
  * @Last Modified by: double7
- * @Last Modified time: 2018-12-31 19:46:35
+ * @Last Modified time: 2019-01-01 09:00:29
  */
 
 import Vue from 'vue';
@@ -141,7 +141,6 @@ const appStore = {
             name,
             avatar
         }) {
-            console.log('in change');
             if (id) {
                 state.userInfo.userId = id;
             }
@@ -215,7 +214,6 @@ const appStore = {
                     id,
                     comment
                 }).then(response => {
-                    console.log('in response 12');
                     if (response.data.status === 0) {
                         commit(REFRESH_DATA);
                         resolve(true);

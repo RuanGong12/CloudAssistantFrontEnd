@@ -1,5 +1,5 @@
 <template>
-    <div class="top-menu">
+    <div class="favorite-root">
         <van-tabs
             v-model="activeTab"
             class="favorites-headers"

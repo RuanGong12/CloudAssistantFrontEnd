@@ -2,7 +2,7 @@
  * @Author: double7
  * @Date: 2018-12-30 11:30:26
  * @Last Modified by: double7
- * @Last Modified time: 2018-12-31 17:36:07
+ * @Last Modified time: 2019-01-01 09:00:46
  */
 
 <template>
@@ -103,7 +103,6 @@ export default {
             }
             if (isCourse) {
                 if (this.detailInfoData.hasRated === 1) {
-                    console.log('hasRated');
                     useCache = true;
                 } else {
                     useCache = false;
