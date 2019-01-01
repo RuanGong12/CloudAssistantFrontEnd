@@ -66,7 +66,15 @@ export default {
             );
         },
         onSearch() {
-            this.refresh();
+            if (this.searchText === '') {
+                this.$toast({
+                    duration: 1000,
+                    message: '请输入搜索内容',
+                    type: 'fail'
+                });
+            } else {
+                this.refresh();
+            }
         }
     },
     components: {
