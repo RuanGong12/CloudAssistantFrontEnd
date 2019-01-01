@@ -2,7 +2,7 @@
  * @Author: double7
  * @Date: 2018-12-30 11:51:31
  * @Last Modified by: double7
- * @Last Modified time: 2018-12-31 18:09:59
+ * @Last Modified time: 2019-01-01 19:02:01
  */
 
 <template>
@@ -48,7 +48,7 @@
 }
 
 .van-panel__header .van-cell__value {
-    color: #909399;
+    color: #909399 !important;
 }
 
 .van-button--danger {
